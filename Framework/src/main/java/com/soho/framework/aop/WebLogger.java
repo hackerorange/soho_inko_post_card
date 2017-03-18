@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
+
 /**
  * Created by ZhongChongtao on 2017/2/11.
  */
@@ -13,9 +14,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class WebLogger {
     private Logger logger = Logger.getLogger(this.getClass());
-    @AfterReturning(
-        value     = "execution(* *..controller..*.*(..))",
-        returning = "response"
+
+    @AfterReturning(value = "execution(* *..controller..*.*(..))", returning = "response"
     )
     public void doAfter(Object response) {
         logger.info(StringUtils.repeat("-", 100));
