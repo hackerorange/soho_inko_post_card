@@ -1,0 +1,5 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.soho.framework.cache.RedisCacheConfiguration,\
+  com.soho.framework.configuration.nosql.RedisConfig,\
+  com.soho.framework.aop.WebLogger,\
+  com.soho.framework.configuration.web.WebConfiguration
