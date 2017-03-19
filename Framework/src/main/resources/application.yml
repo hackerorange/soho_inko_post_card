@@ -1,0 +1,8 @@
+spring:
+  datasource:
+      url: jdbc:mysql://localhost:3306/postcardTailor
+      username: root
+      password: zhongchongtao137
+      driver-class-name: com.mysql.jdbc.Driver
+  mvc:
+    static-path-pattern: /static/**
