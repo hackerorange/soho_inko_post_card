@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <base th:href="${#httpServletRequest.getScheme()+'://'+#httpServletRequest.getServerName()+':'+#httpServletRequest.getServerPort()+#httpServletRequest.getContextPath()}"/>
+    <title>欢迎页面</title>
+</head>
+<body>
+<div>欢迎使用</div>
+<a th:href="@{/background}">跳转到后台</a>
+</body>
+</html>
