@@ -1,0 +1,86 @@
+
+#cropBox {
+    /*background: none repeat scroll 0 0 #246f7b;*/
+
+}
+
+#cropBox {
+    filter: alpha(opacity=50);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+    z-index: 3;
+    /*background-color: white;*/
+    top: 200px;
+    left: 200px;
+    overflow: hidden;
+}
+
+#cropBack {
+    position: absolute;
+    background-color: white;
+}
+
+.cropBoxCantSubmit {
+    border: rgb(255, 100, 140) 1px solid;
+    box-shadow: 0 0 30px rgba(255, 100, 138, 20);
+    -webkit-box-shadow: 0 0 30px rgba(255, 100, 138, 2);
+    -moz-box-shadow: 0 0 30px rgba(255, 100, 138, 2);
+}
+
+.cropBoxCanSubmit {
+    border: #35a5e5 1px solid;
+    box-shadow: 0 0 30px rgba(81, 203, 238, 20);
+    -webkit-box-shadow: 0 0 30px rgba(81, 203, 238, 2);
+    -moz-box-shadow: 0 0 30px rgba(81, 203, 238, 2);
+}
+
+#pic {
+    position: absolute;
+}
+
+#MyContext {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background-color: darkgreen;
+    overflow: hidden
+}
+
+#MainForm {
+    margin: 20px;
+    position: relative;
+    width: 60%;
+    height: 500px;
+    border: #cccccc 1px solid;
+    overflow: hidden;
+    padding: 10px;
+    float: left;
+}
+
+#MyHeader {
+    background: chartreuse;
+    border: solid darkgreen 1px;
+    border-radius: 4px;
+    padding-left: 20px
+}
+
+#tailorPad {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 7
+}
+
+.cropCover { /*遮罩层样式 */
+    background: none repeat scroll 0 0 #246f7b;
+    opacity: 0.4;
+    filter: alpha(opacity=50);
+
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
