@@ -1,8 +1,9 @@
 package com.soho.inko.controller;
 
-import com.soho.framework.web.response.BodyResponse;
 import com.soho.inko.entity.FileEntity;
 import com.soho.inko.service.FileService;
+import com.soho.inko.utils.TypeChecker;
+import com.soho.inko.web.response.BodyResponse;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -31,25 +32,44 @@ public class FileController {
     }
 
     @PostMapping("upload")
-    public BodyResponse<FileEntity> uploadFile(@RequestPart(name = "file") MultipartFile multipartFile) throws IOException {
-        FileEntity fileEntity = fileService.uploadFile(multipartFile);
+    public BodyResponse<FileEntity> uploadFile(@RequestPart(name = "file") MultipartFile multipartFile, String category) throws IOException {
+        FileEntity fileEntity = fileService.uploadFile(multipartFile, category);
         BodyResponse<FileEntity> response = new BodyResponse<>();
         response.setBody(fileEntity);
         return response;
     }
 
     @GetMapping("{fileId}")
-    public ResponseEntity<byte[]> fileDownload(@PathVariable("fileId") String fileId) throws IOException {
-        File file = fileService.findById(fileId);
+    public ResponseEntity<byte[]> fileDownload(
+            @PathVariable("fileId") String fileId,
+            @RequestParam(required = false, defaultValue = "false", name = "isOriginal") Boolean isOriginal,
+            @RequestParam(required = false, defaultValue = "0", name = "rotation") Double rotation) throws IOException {
+
+        File file;
+        if (isOriginal) {
+            file = fileService.findById(fileId);
+        } else {
+            file = fileService.generateThumbnail(fileId, rotation);
+        }
+
         FileEntity fileEntity = fileService.findFileEntityById(fileId);
         if (file == null) {
             return null;
         }
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-        headers.setContentDispositionFormData("attachment", new String(fileEntity.getTitle().getBytes("UTF-8"),
-                "ISO8859-1"));
+        headers.setContentDispositionFormData("attachment", new String(fileEntity.getTitle().getBytes("UTF-8"), "ISO8859-1"));
         return new ResponseEntity<>(FileUtils.readFileToByteArray(file), headers, HttpStatus.OK);
     }
+
+    @GetMapping("generateThumbnail/{fileId}")
+    public String generateThumbnail(@PathVariable String fileId) {
+        File thumbnailById = fileService.generateThumbnail(fileId, 0D);
+        if (TypeChecker.isNull(thumbnailById)) {
+            return "FAILURE";
+        }
+        return "SUCCESS";
+    }
+
 }
 

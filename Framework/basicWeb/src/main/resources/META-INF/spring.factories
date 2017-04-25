@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.soho.inko.web.aop.WebLogger,\
+  com.soho.inko.web.handler.GlobalExceptionHandler,\
+  com.soho.inko.web.WebConfiguration

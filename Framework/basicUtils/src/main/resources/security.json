@@ -1,0 +1,2134 @@
+{
+  "id": "58f1e1c3b090340b16d99258",
+  "swagger": "2.0",
+  "info": {
+    "description": "测试页面",
+    "version": "1.0",
+    "title": "原生访问接口",
+    "contact": {
+      "name": "掌上安邦项目组后台"
+    },
+    "license": {
+      "name": "安邦保险集团",
+      "url": "http://y.abic.cn/serviceCentre/mainInfo.do?method=initMain"
+    }
+  },
+  "host": "t.abic.cn/UniverseSun",
+  "basePath": "/security",
+  "tags": [
+    {
+      "name": "us-account-authority-controller",
+      "description": "US Account Authority Controller"
+    },
+    {
+      "name": "us-account-management-controller",
+      "description": "US Account Management Controller"
+    },
+    {
+      "name": "basic-error-controller",
+      "description": "Basic Error Controller"
+    }
+  ],
+  "paths": {
+    "/USAccountAuthorityController/checkIdValidator": {
+      "post": {
+        "tags": [
+          "us-account-authority-controller"
+        ],
+        "summary": "身份证合法性校验",
+        "operationId": "checkIdValidatorUsingPOST_1",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "marketChannel",
+            "in": "query",
+            "description": "marketChannel",
+            "required": true,
+            "type": "string",
+            "default": "C",
+            "enum": [
+              "C",
+              "B"
+            ]
+          },
+          {
+            "name": "sn",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "appChannel",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "1"
+          },
+          {
+            "name": "deviceType",
+            "in": "query",
+            "description": "deviceType",
+            "required": true,
+            "type": "string",
+            "default": "ios",
+            "enum": [
+              "ios",
+              "android"
+            ]
+          },
+          {
+            "name": "appVersion",
+            "in": "query",
+            "description": "appVersion",
+            "required": true,
+            "type": "string",
+            "default": "2.9.1",
+            "enum": [
+              "2.9.1"
+            ]
+          },
+          {
+            "name": "platformId",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "Galaxy_LifeApp"
+          },
+          {
+            "name": "deviceAppId",
+            "in": "query",
+            "description": "deviceAppId",
+            "required": true,
+            "type": "string",
+            "default": "66E0D583-DD64-4370-8DA7-04A7769EDBA0"
+          },
+          {
+            "name": "mode",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "json"
+          },
+          {
+            "name": "hashcode",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "idType",
+            "in": "query",
+            "description": "idType",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "idNo",
+            "in": "query",
+            "description": "idNo",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "method",
+            "in": "query",
+            "description": "hide",
+            "required": false,
+            "type": "string",
+            "default": "checkIdValidator"
+          },
+          {
+            "name": "tokenId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/SecurityBodyResponse"
+            }
+          }
+        }
+      }
+    },
+    "/USAccountAuthorityController/entryAnBangWallet": {
+      "post": {
+        "tags": [
+          "us-account-authority-controller"
+        ],
+        "summary": "进入安邦钱包接口",
+        "operationId": "entryAnBangWalletUsingPOST_1",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "marketChannel",
+            "in": "query",
+            "description": "marketChannel",
+            "required": true,
+            "type": "string",
+            "default": "C",
+            "enum": [
+              "C",
+              "B"
+            ]
+          },
+          {
+            "name": "sn",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "appChannel",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "1"
+          },
+          {
+            "name": "deviceType",
+            "in": "query",
+            "description": "deviceType",
+            "required": true,
+            "type": "string",
+            "default": "ios",
+            "enum": [
+              "ios",
+              "android"
+            ]
+          },
+          {
+            "name": "appVersion",
+            "in": "query",
+            "description": "appVersion",
+            "required": true,
+            "type": "string",
+            "default": "2.9.1",
+            "enum": [
+              "2.9.1"
+            ]
+          },
+          {
+            "name": "platformId",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "Galaxy_LifeApp"
+          },
+          {
+            "name": "deviceAppId",
+            "in": "query",
+            "description": "deviceAppId",
+            "required": true,
+            "type": "string",
+            "default": "66E0D583-DD64-4370-8DA7-04A7769EDBA0"
+          },
+          {
+            "name": "mode",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "json"
+          },
+          {
+            "name": "hashcode",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "tokenId",
+            "in": "query",
+            "description": "tokenId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "method",
+            "in": "query",
+            "description": "hide",
+            "required": false,
+            "type": "string",
+            "default": "entryAnBangWallet"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/SecurityBodyResponse"
+            }
+          }
+        }
+      }
+    },
+    "/USAccountManagementController/BindAccountIdentityAfterLogin": {
+      "post": {
+        "tags": [
+          "us-account-management-controller"
+        ],
+        "summary": "实名认证接口-登录后",
+        "operationId": "saveUserCertificationInfoAfterLoginUsingPOST_1",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "marketChannel",
+            "in": "query",
+            "description": "marketChannel",
+            "required": true,
+            "type": "string",
+            "default": "C",
+            "enum": [
+              "C",
+              "B"
+            ]
+          },
+          {
+            "name": "sn",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "appChannel",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "1"
+          },
+          {
+            "name": "deviceType",
+            "in": "query",
+            "description": "deviceType",
+            "required": true,
+            "type": "string",
+            "default": "ios",
+            "enum": [
+              "ios",
+              "android"
+            ]
+          },
+          {
+            "name": "appVersion",
+            "in": "query",
+            "description": "appVersion",
+            "required": true,
+            "type": "string",
+            "default": "2.9.1",
+            "enum": [
+              "2.9.1"
+            ]
+          },
+          {
+            "name": "platformId",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "Galaxy_LifeApp"
+          },
+          {
+            "name": "deviceAppId",
+            "in": "query",
+            "description": "deviceAppId",
+            "required": true,
+            "type": "string",
+            "default": "66E0D583-DD64-4370-8DA7-04A7769EDBA0"
+          },
+          {
+            "name": "mode",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "json"
+          },
+          {
+            "name": "hashcode",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "coreAccount",
+            "description": "coreAccount",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/CoreAccount"
+            }
+          },
+          {
+            "name": "method",
+            "in": "query",
+            "description": "hide",
+            "required": false,
+            "type": "string",
+            "default": "saveUserCertificationInfoAfterLogin"
+          },
+          {
+            "name": "tokenId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/USAccountManagementController/BindAccountIdentityAfterLoginAndAuthorityStatus": {
+      "post": {
+        "tags": [
+          "us-account-management-controller"
+        ],
+        "summary": "实名认证接口 登录后 保存实名信息和客户状态信息接口",
+        "operationId": "saveUserCertificationInfoAfterLoginAndAuthorityStatusUsingPOST_1",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "marketChannel",
+            "in": "query",
+            "description": "marketChannel",
+            "required": true,
+            "type": "string",
+            "default": "C",
+            "enum": [
+              "C",
+              "B"
+            ]
+          },
+          {
+            "name": "sn",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "appChannel",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "1"
+          },
+          {
+            "name": "deviceType",
+            "in": "query",
+            "description": "deviceType",
+            "required": true,
+            "type": "string",
+            "default": "ios",
+            "enum": [
+              "ios",
+              "android"
+            ]
+          },
+          {
+            "name": "appVersion",
+            "in": "query",
+            "description": "appVersion",
+            "required": true,
+            "type": "string",
+            "default": "2.9.1",
+            "enum": [
+              "2.9.1"
+            ]
+          },
+          {
+            "name": "platformId",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "Galaxy_LifeApp"
+          },
+          {
+            "name": "deviceAppId",
+            "in": "query",
+            "description": "deviceAppId",
+            "required": true,
+            "type": "string",
+            "default": "66E0D583-DD64-4370-8DA7-04A7769EDBA0"
+          },
+          {
+            "name": "mode",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "json"
+          },
+          {
+            "name": "hashcode",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "coreAccount",
+            "description": "coreAccount",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/CoreAccount"
+            }
+          },
+          {
+            "name": "memberName",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "certificateNumber",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "certificateType",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "tokenId",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "systemCode",
+            "in": "query",
+            "description": "systemCode",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "method",
+            "in": "query",
+            "description": "hide",
+            "required": false,
+            "type": "string",
+            "default": "saveUserCertificationInfoAfterLoginAndAuthorityStatus"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/USAccountManagementController/BindAccountIdentityBeforeLogin": {
+      "post": {
+        "tags": [
+          "us-account-management-controller"
+        ],
+        "summary": "实名认证接口-登录前",
+        "operationId": "saveUserCertificationInfoBeforeLoginUsingPOST_1",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "marketChannel",
+            "in": "query",
+            "description": "marketChannel",
+            "required": true,
+            "type": "string",
+            "default": "C",
+            "enum": [
+              "C",
+              "B"
+            ]
+          },
+          {
+            "name": "sn",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "appChannel",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "1"
+          },
+          {
+            "name": "deviceType",
+            "in": "query",
+            "description": "deviceType",
+            "required": true,
+            "type": "string",
+            "default": "ios",
+            "enum": [
+              "ios",
+              "android"
+            ]
+          },
+          {
+            "name": "appVersion",
+            "in": "query",
+            "description": "appVersion",
+            "required": true,
+            "type": "string",
+            "default": "2.9.1",
+            "enum": [
+              "2.9.1"
+            ]
+          },
+          {
+            "name": "platformId",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "Galaxy_LifeApp"
+          },
+          {
+            "name": "deviceAppId",
+            "in": "query",
+            "description": "deviceAppId",
+            "required": true,
+            "type": "string",
+            "default": "66E0D583-DD64-4370-8DA7-04A7769EDBA0"
+          },
+          {
+            "name": "mode",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "json"
+          },
+          {
+            "name": "hashcode",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "method",
+            "in": "query",
+            "description": "hide",
+            "required": false,
+            "type": "string",
+            "default": "saveUserCertificationInfoBeforeLogin"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/USAccountManagementController/BindAccountIdentityBeforeLoginAndAuthorityStatus": {
+      "post": {
+        "tags": [
+          "us-account-management-controller"
+        ],
+        "summary": "实名认证接口 登录前 保存实名信息和客户状态信息接口",
+        "operationId": "saveUserCertificationInfoBeforeLoginAndAuthorityStatusUsingPOST_1",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "marketChannel",
+            "in": "query",
+            "description": "marketChannel",
+            "required": true,
+            "type": "string",
+            "default": "C",
+            "enum": [
+              "C",
+              "B"
+            ]
+          },
+          {
+            "name": "sn",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "appChannel",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "1"
+          },
+          {
+            "name": "deviceType",
+            "in": "query",
+            "description": "deviceType",
+            "required": true,
+            "type": "string",
+            "default": "ios",
+            "enum": [
+              "ios",
+              "android"
+            ]
+          },
+          {
+            "name": "appVersion",
+            "in": "query",
+            "description": "appVersion",
+            "required": true,
+            "type": "string",
+            "default": "2.9.1",
+            "enum": [
+              "2.9.1"
+            ]
+          },
+          {
+            "name": "platformId",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "Galaxy_LifeApp"
+          },
+          {
+            "name": "deviceAppId",
+            "in": "query",
+            "description": "deviceAppId",
+            "required": true,
+            "type": "string",
+            "default": "66E0D583-DD64-4370-8DA7-04A7769EDBA0"
+          },
+          {
+            "name": "mode",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "json"
+          },
+          {
+            "name": "hashcode",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "systemCode",
+            "in": "query",
+            "description": "systemCode",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "method",
+            "in": "query",
+            "description": "hide",
+            "required": false,
+            "type": "string",
+            "default": "saveUserCertificationInfoBeforeLoginAndAuthorityStatus"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/USAccountManagementController/login": {
+      "post": {
+        "tags": [
+          "us-account-management-controller"
+        ],
+        "summary": "用户登录接口",
+        "operationId": "loginUsingPOST_1",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "marketChannel",
+            "in": "query",
+            "description": "marketChannel",
+            "required": true,
+            "type": "string",
+            "default": "C",
+            "enum": [
+              "C",
+              "B"
+            ]
+          },
+          {
+            "name": "sn",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "appChannel",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "1"
+          },
+          {
+            "name": "deviceType",
+            "in": "query",
+            "description": "deviceType",
+            "required": true,
+            "type": "string",
+            "default": "ios",
+            "enum": [
+              "ios",
+              "android"
+            ]
+          },
+          {
+            "name": "appVersion",
+            "in": "query",
+            "description": "appVersion",
+            "required": true,
+            "type": "string",
+            "default": "2.9.1",
+            "enum": [
+              "2.9.1"
+            ]
+          },
+          {
+            "name": "platformId",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "Galaxy_LifeApp"
+          },
+          {
+            "name": "deviceAppId",
+            "in": "query",
+            "description": "deviceAppId",
+            "required": true,
+            "type": "string",
+            "default": "66E0D583-DD64-4370-8DA7-04A7769EDBA0"
+          },
+          {
+            "name": "mode",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "json"
+          },
+          {
+            "name": "hashcode",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "accountCode",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "accountPassword",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "verificationCode",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "method",
+            "in": "query",
+            "description": "hide",
+            "required": false,
+            "type": "string",
+            "default": "login"
+          },
+          {
+            "name": "platformSecret",
+            "in": "query",
+            "description": "read only",
+            "required": false,
+            "type": "string",
+            "default": "650beebb1e3d08e0206619c54ce0d767"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/USAccountManagementController/regist": {
+      "post": {
+        "tags": [
+          "us-account-management-controller"
+        ],
+        "summary": "注册接口,保存用户注册信息",
+        "operationId": "registUsingPOST_1",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "marketChannel",
+            "in": "query",
+            "description": "marketChannel",
+            "required": true,
+            "type": "string",
+            "default": "C",
+            "enum": [
+              "C",
+              "B"
+            ]
+          },
+          {
+            "name": "sn",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "appChannel",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "1"
+          },
+          {
+            "name": "deviceType",
+            "in": "query",
+            "description": "deviceType",
+            "required": true,
+            "type": "string",
+            "default": "ios",
+            "enum": [
+              "ios",
+              "android"
+            ]
+          },
+          {
+            "name": "appVersion",
+            "in": "query",
+            "description": "appVersion",
+            "required": true,
+            "type": "string",
+            "default": "2.9.1",
+            "enum": [
+              "2.9.1"
+            ]
+          },
+          {
+            "name": "platformId",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "Galaxy_LifeApp"
+          },
+          {
+            "name": "deviceAppId",
+            "in": "query",
+            "description": "deviceAppId",
+            "required": true,
+            "type": "string",
+            "default": "66E0D583-DD64-4370-8DA7-04A7769EDBA0"
+          },
+          {
+            "name": "mode",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "json"
+          },
+          {
+            "name": "hashcode",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "accountCode",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "accountPassword",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "personalMobileNo",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "verificationCode",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "method",
+            "in": "query",
+            "description": "hide",
+            "required": false,
+            "type": "string",
+            "default": "regist"
+          },
+          {
+            "name": "registryPlatformId",
+            "in": "query",
+            "description": "read only",
+            "required": false,
+            "type": "string",
+            "default": "Galaxy_LifeApp"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/USAccountManagementController/saveAuthorityStatus": {
+      "post": {
+        "tags": [
+          "us-account-management-controller"
+        ],
+        "summary": "保存开户状态接口",
+        "operationId": "saveAuthorityStatusUsingPOST_1",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "marketChannel",
+            "in": "query",
+            "description": "marketChannel",
+            "required": true,
+            "type": "string",
+            "default": "C",
+            "enum": [
+              "C",
+              "B"
+            ]
+          },
+          {
+            "name": "sn",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "appChannel",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "1"
+          },
+          {
+            "name": "deviceType",
+            "in": "query",
+            "description": "deviceType",
+            "required": true,
+            "type": "string",
+            "default": "ios",
+            "enum": [
+              "ios",
+              "android"
+            ]
+          },
+          {
+            "name": "appVersion",
+            "in": "query",
+            "description": "appVersion",
+            "required": true,
+            "type": "string",
+            "default": "2.9.1",
+            "enum": [
+              "2.9.1"
+            ]
+          },
+          {
+            "name": "platformId",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "Galaxy_LifeApp"
+          },
+          {
+            "name": "deviceAppId",
+            "in": "query",
+            "description": "deviceAppId",
+            "required": true,
+            "type": "string",
+            "default": "66E0D583-DD64-4370-8DA7-04A7769EDBA0"
+          },
+          {
+            "name": "mode",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "json"
+          },
+          {
+            "name": "hashcode",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "coreAccount",
+            "description": "coreAccount",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/CoreAccount"
+            }
+          },
+          {
+            "name": "systemCode",
+            "in": "query",
+            "description": "systemCode",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "method",
+            "in": "query",
+            "description": "hide",
+            "required": false,
+            "type": "string",
+            "default": "saveAuthorityStatus"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/error": {
+      "get": {
+        "tags": [
+          "basic-error-controller"
+        ],
+        "summary": "error",
+        "operationId": "errorUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "marketChannel",
+            "in": "query",
+            "description": "marketChannel",
+            "required": true,
+            "type": "string",
+            "default": "C",
+            "enum": [
+              "C",
+              "B"
+            ]
+          },
+          {
+            "name": "sn",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "appChannel",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "1"
+          },
+          {
+            "name": "deviceType",
+            "in": "query",
+            "description": "deviceType",
+            "required": true,
+            "type": "string",
+            "default": "ios",
+            "enum": [
+              "ios",
+              "android"
+            ]
+          },
+          {
+            "name": "appVersion",
+            "in": "query",
+            "description": "appVersion",
+            "required": true,
+            "type": "string",
+            "default": "2.9.1",
+            "enum": [
+              "2.9.1"
+            ]
+          },
+          {
+            "name": "platformId",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "Galaxy_LifeApp"
+          },
+          {
+            "name": "deviceAppId",
+            "in": "query",
+            "description": "deviceAppId",
+            "required": true,
+            "type": "string",
+            "default": "66E0D583-DD64-4370-8DA7-04A7769EDBA0"
+          },
+          {
+            "name": "mode",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "json"
+          },
+          {
+            "name": "hashcode",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      },
+      "head": {
+        "tags": [
+          "basic-error-controller"
+        ],
+        "summary": "error",
+        "operationId": "errorUsingHEAD",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "marketChannel",
+            "in": "query",
+            "description": "marketChannel",
+            "required": true,
+            "type": "string",
+            "default": "C",
+            "enum": [
+              "C",
+              "B"
+            ]
+          },
+          {
+            "name": "sn",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "appChannel",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "1"
+          },
+          {
+            "name": "deviceType",
+            "in": "query",
+            "description": "deviceType",
+            "required": true,
+            "type": "string",
+            "default": "ios",
+            "enum": [
+              "ios",
+              "android"
+            ]
+          },
+          {
+            "name": "appVersion",
+            "in": "query",
+            "description": "appVersion",
+            "required": true,
+            "type": "string",
+            "default": "2.9.1",
+            "enum": [
+              "2.9.1"
+            ]
+          },
+          {
+            "name": "platformId",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "Galaxy_LifeApp"
+          },
+          {
+            "name": "deviceAppId",
+            "in": "query",
+            "description": "deviceAppId",
+            "required": true,
+            "type": "string",
+            "default": "66E0D583-DD64-4370-8DA7-04A7769EDBA0"
+          },
+          {
+            "name": "mode",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "json"
+          },
+          {
+            "name": "hashcode",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "basic-error-controller"
+        ],
+        "summary": "error",
+        "operationId": "errorUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "marketChannel",
+            "in": "query",
+            "description": "marketChannel",
+            "required": true,
+            "type": "string",
+            "default": "C",
+            "enum": [
+              "C",
+              "B"
+            ]
+          },
+          {
+            "name": "sn",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "appChannel",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "1"
+          },
+          {
+            "name": "deviceType",
+            "in": "query",
+            "description": "deviceType",
+            "required": true,
+            "type": "string",
+            "default": "ios",
+            "enum": [
+              "ios",
+              "android"
+            ]
+          },
+          {
+            "name": "appVersion",
+            "in": "query",
+            "description": "appVersion",
+            "required": true,
+            "type": "string",
+            "default": "2.9.1",
+            "enum": [
+              "2.9.1"
+            ]
+          },
+          {
+            "name": "platformId",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "Galaxy_LifeApp"
+          },
+          {
+            "name": "deviceAppId",
+            "in": "query",
+            "description": "deviceAppId",
+            "required": true,
+            "type": "string",
+            "default": "66E0D583-DD64-4370-8DA7-04A7769EDBA0"
+          },
+          {
+            "name": "mode",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "json"
+          },
+          {
+            "name": "hashcode",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "basic-error-controller"
+        ],
+        "summary": "error",
+        "operationId": "errorUsingPUT",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "marketChannel",
+            "in": "query",
+            "description": "marketChannel",
+            "required": true,
+            "type": "string",
+            "default": "C",
+            "enum": [
+              "C",
+              "B"
+            ]
+          },
+          {
+            "name": "sn",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "appChannel",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "1"
+          },
+          {
+            "name": "deviceType",
+            "in": "query",
+            "description": "deviceType",
+            "required": true,
+            "type": "string",
+            "default": "ios",
+            "enum": [
+              "ios",
+              "android"
+            ]
+          },
+          {
+            "name": "appVersion",
+            "in": "query",
+            "description": "appVersion",
+            "required": true,
+            "type": "string",
+            "default": "2.9.1",
+            "enum": [
+              "2.9.1"
+            ]
+          },
+          {
+            "name": "platformId",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "Galaxy_LifeApp"
+          },
+          {
+            "name": "deviceAppId",
+            "in": "query",
+            "description": "deviceAppId",
+            "required": true,
+            "type": "string",
+            "default": "66E0D583-DD64-4370-8DA7-04A7769EDBA0"
+          },
+          {
+            "name": "mode",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "json"
+          },
+          {
+            "name": "hashcode",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "basic-error-controller"
+        ],
+        "summary": "error",
+        "operationId": "errorUsingDELETE",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "marketChannel",
+            "in": "query",
+            "description": "marketChannel",
+            "required": true,
+            "type": "string",
+            "default": "C",
+            "enum": [
+              "C",
+              "B"
+            ]
+          },
+          {
+            "name": "sn",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "appChannel",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "1"
+          },
+          {
+            "name": "deviceType",
+            "in": "query",
+            "description": "deviceType",
+            "required": true,
+            "type": "string",
+            "default": "ios",
+            "enum": [
+              "ios",
+              "android"
+            ]
+          },
+          {
+            "name": "appVersion",
+            "in": "query",
+            "description": "appVersion",
+            "required": true,
+            "type": "string",
+            "default": "2.9.1",
+            "enum": [
+              "2.9.1"
+            ]
+          },
+          {
+            "name": "platformId",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "Galaxy_LifeApp"
+          },
+          {
+            "name": "deviceAppId",
+            "in": "query",
+            "description": "deviceAppId",
+            "required": true,
+            "type": "string",
+            "default": "66E0D583-DD64-4370-8DA7-04A7769EDBA0"
+          },
+          {
+            "name": "mode",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "json"
+          },
+          {
+            "name": "hashcode",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      },
+      "options": {
+        "tags": [
+          "basic-error-controller"
+        ],
+        "summary": "error",
+        "operationId": "errorUsingOPTIONS",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "marketChannel",
+            "in": "query",
+            "description": "marketChannel",
+            "required": true,
+            "type": "string",
+            "default": "C",
+            "enum": [
+              "C",
+              "B"
+            ]
+          },
+          {
+            "name": "sn",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "appChannel",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "1"
+          },
+          {
+            "name": "deviceType",
+            "in": "query",
+            "description": "deviceType",
+            "required": true,
+            "type": "string",
+            "default": "ios",
+            "enum": [
+              "ios",
+              "android"
+            ]
+          },
+          {
+            "name": "appVersion",
+            "in": "query",
+            "description": "appVersion",
+            "required": true,
+            "type": "string",
+            "default": "2.9.1",
+            "enum": [
+              "2.9.1"
+            ]
+          },
+          {
+            "name": "platformId",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "Galaxy_LifeApp"
+          },
+          {
+            "name": "deviceAppId",
+            "in": "query",
+            "description": "deviceAppId",
+            "required": true,
+            "type": "string",
+            "default": "66E0D583-DD64-4370-8DA7-04A7769EDBA0"
+          },
+          {
+            "name": "mode",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "json"
+          },
+          {
+            "name": "hashcode",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "basic-error-controller"
+        ],
+        "summary": "error",
+        "operationId": "errorUsingPATCH",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "marketChannel",
+            "in": "query",
+            "description": "marketChannel",
+            "required": true,
+            "type": "string",
+            "default": "C",
+            "enum": [
+              "C",
+              "B"
+            ]
+          },
+          {
+            "name": "sn",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "appChannel",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "1"
+          },
+          {
+            "name": "deviceType",
+            "in": "query",
+            "description": "deviceType",
+            "required": true,
+            "type": "string",
+            "default": "ios",
+            "enum": [
+              "ios",
+              "android"
+            ]
+          },
+          {
+            "name": "appVersion",
+            "in": "query",
+            "description": "appVersion",
+            "required": true,
+            "type": "string",
+            "default": "2.9.1",
+            "enum": [
+              "2.9.1"
+            ]
+          },
+          {
+            "name": "platformId",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "Galaxy_LifeApp"
+          },
+          {
+            "name": "deviceAppId",
+            "in": "query",
+            "description": "deviceAppId",
+            "required": true,
+            "type": "string",
+            "default": "66E0D583-DD64-4370-8DA7-04A7769EDBA0"
+          },
+          {
+            "name": "mode",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string",
+            "default": "json"
+          },
+          {
+            "name": "hashcode",
+            "in": "query",
+            "description": "read only",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ModelMap": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object"
+      }
+    },
+    "ModelAndView": {
+      "properties": {
+        "empty": {
+          "type": "boolean"
+        },
+        "model": {
+          "type": "object"
+        },
+        "modelMap": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
+        },
+        "reference": {
+          "type": "boolean"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "100",
+            "101",
+            "102",
+            "103",
+            "200",
+            "201",
+            "202",
+            "203",
+            "204",
+            "205",
+            "206",
+            "207",
+            "208",
+            "226",
+            "300",
+            "301",
+            "302",
+            "302",
+            "303",
+            "304",
+            "305",
+            "307",
+            "308",
+            "400",
+            "401",
+            "402",
+            "403",
+            "404",
+            "405",
+            "406",
+            "407",
+            "408",
+            "409",
+            "410",
+            "411",
+            "412",
+            "413",
+            "413",
+            "414",
+            "414",
+            "415",
+            "416",
+            "417",
+            "418",
+            "419",
+            "420",
+            "421",
+            "422",
+            "423",
+            "424",
+            "426",
+            "428",
+            "429",
+            "431",
+            "451",
+            "500",
+            "501",
+            "502",
+            "503",
+            "504",
+            "505",
+            "506",
+            "507",
+            "508",
+            "509",
+            "510",
+            "511"
+          ]
+        },
+        "view": {
+          "$ref": "#/definitions/View"
+        },
+        "viewName": {
+          "type": "string"
+        }
+      }
+    },
+    "SecurityBodyResponse": {
+      "properties": {
+        "body": {
+          "type": "object"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "key": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      }
+    },
+    "View": {
+      "properties": {
+        "contentType": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

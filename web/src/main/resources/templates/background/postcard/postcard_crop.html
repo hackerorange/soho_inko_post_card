@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--suppress HtmlPresentationalElement -->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <base th:href="${#httpServletRequest.getScheme()+'://'+#httpServletRequest.getServerName()+':'+#httpServletRequest.getServerPort()+#httpServletRequest.getContextPath()}+'/background'"/>
+    <title>Crown - premium responsive admin template for backend systems</title>
+    <link th:href="@{css/main.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{css/orange.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{css/postcard/cropper.css}" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="" th:src="@{js/jquery.min.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/spinner/ui.spinner.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/spinner/jquery.mousewheel.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/jquery-ui.min.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/charts/excanvas.min.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/charts/jquery.flot.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/charts/jquery.flot.orderBars.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/charts/jquery.flot.pie.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/charts/jquery.flot.resize.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/charts/jquery.sparkline.min.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/forms/uniform.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/forms/jquery.cleditor.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/forms/jquery.validationEngine-en.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/forms/jquery.validationEngine.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/forms/jquery.tagsinput.min.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/forms/autogrowtextarea.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/forms/jquery.maskedinput.min.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/forms/jquery.dualListBox.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/forms/jquery.inputlimiter.min.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/forms/chosen.jquery.min.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/wizard/jquery.form.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/wizard/jquery.validate.min.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/wizard/jquery.form.wizard.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/uploader/plupload.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/uploader/plupload.html5.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/uploader/plupload.html4.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/uploader/jquery.plupload.queue.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/tables/datatable.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/tables/tablesort.min.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/tables/resizable.min.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/ui/jquery.tipsy.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/ui/jquery.collapsible.min.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/ui/jquery.prettyPhoto.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/ui/jquery.progress.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/ui/jquery.timeentry.min.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/ui/jquery.colorpicker.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/ui/jquery.jgrowl.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/ui/jquery.breadcrumbs.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/ui/jquery.sourcerer.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/calendar.min.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/elfinder.min.js}"></script>
+    <!--<script type="text/javascript" src="" th:src="@{https://code.jquery.com/jquery-3.1.1.slim.min.js}"></script>-->
+    <script type="text/javascript" src="" th:src="@{js/postcard/postCardTailor.js}"></script>
+    <!--<script type="text/javascript" src="" th:src="@{js/postcard/cropper.js}"></script>-->
+    <!--<script type="text/javascript" src="" th:src="@{js/postcard/postcard.js}"></script>-->
+    <script type="text/javascript" src="" th:src="@{js/custom.js}"></script>
+    <style type="text/css">
+        .container {
+            max-width: 100%;
+            height: 500px;
+            margin: 0 auto;
+        }
+    </style>
+    <script type="text/javascript" th:inline="javascript">
+        var tokenId = [[${tokenId}]];
+        console.log(tokenId);
+        $(function () {
+            $('#myPostCard').PostCard();
+        });
+
+    </script>
+</head>
+<body>
+<!--包含左侧边框-->
+<div th:include="background/common/common::navigation_left(${'明信片'},${'裁切明信片'})"></div>
+<div id="rightSide">
+    <!-- Top fixed navigation -->
+    <div th:include="background/common/common::navigation_top"></div>
+    <div class="wrapper">
+        <div class="widgets">
+            <div class="twoOne">
+                <div id="postcard" class="widget">
+                    <div class="title"><h6>明信片裁切</h6></div>
+                    <div style="max-height: 600px">
+                        <div class="container">
+                            <div id="myPostCard" style="height: 500px;">
+                                <!--<img style="height: 500px" id="myPic" th:src="@{images/1.jpg}" src="" alt="没有找到图片"/>-->
+                                <img style="height: 500px" id="myPic" src="" alt=""/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="oneThree">
+                <div class="widget">
+                    <div class="title"><h6>明信片预览</h6></div>
+                    <div style="width: 100%;text-align: center">
+                        <div style="height: 100%;width: 100%;">
+                            <div id="myPreview" style="overflow:hidden;border: green 1px solid;height: 200px;margin: 10px    auto;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="widgets" style="max-height: 200px;">
+                    <!--<div class="oneTwo">-->
+                    <div>
+                        <div class="widget">
+                            <div class="title"><h6>相关信息</h6></div>
+                            <div id="testInfo">
+                                客户名称：XXXXXXXXXX<br/>
+                                淘宝账号：XXXXXXXXXX<br/>
+                                成品尺寸：145×100<br/>
+                                正面板式：B版<br/>
+                                反面板式：<br/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+
+    <!-- Footer line -->
+    <div th:include="background/common/common::footer"></div>
+</div>
+<div class="clear"></div>
+</body>
+</html>

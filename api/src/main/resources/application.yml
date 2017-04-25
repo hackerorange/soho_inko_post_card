@@ -1,0 +1,10 @@
+server:
+  port: 8100
+  context-path: /api
+spring:
+  activemq:
+    broker-url: tcp://localhost:61616
+  jpa:
+    show-sql: true
+mybatis:
+  mapper-locations: classpath*:mappers/**.xml

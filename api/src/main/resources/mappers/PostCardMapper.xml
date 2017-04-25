@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.soho.inko.postcard.mapper.PostCardMapper">
+
+
+    <delete id="deleteAllByPostCardNumber">
+
+        DELETE FROM ppm_post_card
+         WHERE ENVELOPE_ID IN
+               (
+                   SELECT ppm_envelope.ID
+                     FROM ppm_envelope
+                    WHERE ORDER_ID                = #{orderNumber}
+               )
+
+
+    </delete>
+</mapper>

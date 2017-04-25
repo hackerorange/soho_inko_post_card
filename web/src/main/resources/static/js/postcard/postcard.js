@@ -11,58 +11,92 @@ function ooo() {
 var options = {
     viewMode: 0,
     dragMode: 'move',
-    autoCropArea: 0.60,
+    // autoCropArea: 0.60,
     restore: false,
-    guides: false,
-    highlight: false,
+    strict: false,
+    guides: true,
+    highlight: true,
     cropBoxMovable: false,
     cropBoxResizable: false,
     toggleDragModeOnDblclick: false,
     preview: '#myPreview',
-    aspectRatio: 5,
-    ready: function (a) {
+    modal:true,
+    // aspectRatio: 5,
+    zoomOnWheel: false,
+    ready: function () {
+
         var $myPic = $('#myPic');
         var canvasData = $myPic.cropper('getCanvasData');
         var cropBoxData = $myPic.cropper('getCropBoxData');
+        var containerData = $myPic.cropper('getContainerData');
+        $myPic.cropper('zoomTo', 1);
+        console.log("========================");
+        var initRotate = 0;
+        // currentPostCardInfo.pictureSize.width
+        // 图像方向和画布方向不一致
+        if ((canvasData.width - canvasData.height) * (cropBoxData.height - cropBoxData.width) > 0) {
+            $myPic.cropper('rotate', -90);
+            $myPic.cropper('autoCropArea', 0.6);
+            initRotate -= 90;
+        }
         if (cropBoxData.width / cropBoxData.height < canvasData.width / canvasData.height) {
             $myPic.cropper('zoomTo', (cropBoxData.height / canvasData.naturalHeight));
         } else {
             $myPic.cropper('zoomTo', (cropBoxData.width / canvasData.naturalWidth));
         }
+        currentPostCardInfo.cropInfo = {
+            left: (cropBoxData.left - canvasData.left) / canvasData.width,
+            top: (cropBoxData.top - canvasData.top) / canvasData.height,
+            width: cropBoxData.width / canvasData.width,
+            height: cropBoxData.height / canvasData.height,
+            rotation: initRotate
+        };
     }
+
 };
 var currentMouserPoint = undefined;
 var isSubmitEnabled = false;
 var currentPostCardInfo = {
-    "postCardId": "402881e75ad23605015ad25472bf0003",
+    "pictureSize": {
+        "height": 90.0,
+        "width": 135.0
+    },
     "postCardFileId": "fb413367e2e29e2f05baff4489baac79",
-    "type": "TYPE_A",
-    "productWidth": 100.0,
-    "productHeight": 145.0,
-    "pictureWidth": 0.0,
-    "pictureHeight": 100.0,
-    "cropInfo": {
-        left: 0,
-        top: 0,
-        width: 0,
-        height: 0
-    }
+    "postCardId": "402881e75ad23605015ad25472bf0003",
+    "productSize": {
+        "height": 100.0,
+        "width": 145.0
+    },
+    "type": "TYPE_A"
 };
 $(function () {
     var $myPic = $('#myPic');
     //设置好裁切对象
-    $myPic.cropper(options);
+    var $cropper = $myPic.cropper(options);
     //相关事件
     $('#postcard')
-    //鼠标移动事件
+        .on('mouseenter', function (a) {
+            currentMouserPoint = {
+                x: a.screenX,
+                y: a.screenY
+            };
+        })
+        .on('mouseleave', function () {
+            console.log("鼠标移除");
+        })
+        //鼠标移动事件
         .on('mousemove', function (a, b, c) {
-            //第一次鼠标移动
+            //第一次鼠标移动，一般鼠标进入的时候执行
             if (currentMouserPoint == undefined) {
+                console.log("鼠标在里面");
                 currentMouserPoint = {
                     x: a.screenX,
                     y: a.screenY
                 };
                 return;
+            }
+            if (!isSubmitEnabled) {
+                return
             }
             //之后的鼠标移动变化量
             var mousePointDelta = {
@@ -76,41 +110,21 @@ $(function () {
             };
             // var $testInfo = $('#testInfo');
             var $pic = $('#myPic');
-            var canvasData = $pic.cropper('getCanvasData');
-            var cropBoxData = $pic.cropper('getCropBoxData');
             moveMyPicture({deltaX: mousePointDelta.x, deltaY: mousePointDelta.y});
-            currentPostCardInfo.cropInfo = {
-                left: (cropBoxData.left - canvasData.left) / canvasData.width,
-                top: (cropBoxData.top - canvasData.top) / canvasData.height,
-                width: cropBoxData.width / canvasData.width,
-                height: cropBoxData.height / canvasData.height
-            };
-            // var testInfoText =
-            //         '画布左侧: ' + canvasData.left + '<br/>' +
-            //         '画布上侧: ' + canvasData.top + '<br/>' +
-            //         '画布宽度: ' + canvasData.width + '<br/>' +
-            //         '画布高度: ' + canvasData.height + '<br/><br/>' +
-            //         '数据左侧: ' + ((cropBoxData.left - canvasData.left) / canvasData.width).toFixed(2) + '<br/>' +
-            //         '数据上侧: ' + ((cropBoxData.top - canvasData.top) / canvasData.height).toFixed(2) + '<br/>' +
-            //         '数据宽度: ' + ((cropBoxData.width / canvasData.width)).toFixed(2) + '<br/>' +
-            //         '数据高度: ' + ((cropBoxData.height / canvasData.height )).toFixed(2) + '<br/><br/>'
-            //
-            //     ;
-            // $testInfo
-            //     .html(testInfoText);
         })
         //鼠标滚动事件
-        .on('mousewheel', function () {
+        .on('mousewheel', function (a) {
+            if (!isSubmitEnabled) {
+                return
+            }
             var canvasData = $myPic.cropper('getCanvasData');
             var cropBoxData = $myPic.cropper('getCropBoxData');
-            if ((canvasData.width > cropBoxData.width) && (canvasData.height > cropBoxData.height)) {
-                //调整大小
-                if (cropBoxData.width / cropBoxData.height <= canvasData.width / canvasData.height) {
-                    $myPic.cropper('zoomTo', (cropBoxData.height / canvasData.naturalHeight));
-                } else {
-                    $myPic.cropper('zoomTo', (cropBoxData.width / canvasData.naturalWidth));
-                }
+            if (a.originalEvent.wheelDelta > 0) {
+                $myPic.cropper('zoom', 0.05);
+            } else {
+                $myPic.cropper('zoom', -0.05);
             }
+
             moveMyPicture(
                 {
                     deltaX: 0,
@@ -119,12 +133,30 @@ $(function () {
             );
         })
         .on('click', function () {
+            //如果两条边都比大于1，说明白边太大，进行修正
+            // if (currentPostCardInfo.cropInfo.width > 1 && currentPostCardInfo.cropInfo.height > 1) {
+            //     //调整大小
+            //     var canvasData = $myPic.cropper('getCanvasData');
+            //     var cropBoxData = $myPic.cropper('getCropBoxData');
+            //     if (cropBoxData.width / cropBoxData.height >= canvasData.width / canvasData.height) {
+            //         $myPic.cropper('zoomTo', (cropBoxData.height / canvasData.naturalHeight));
+            //     } else {
+            //         $myPic.cropper('zoomTo', (cropBoxData.width / canvasData.naturalWidth));
+            //     }
+            //     moveMyPicture(
+            //         {
+            //             deltaX: 0,
+            //             deltaY: 0
+            //         }
+            //     );
+            // }
+
             if (isSubmitEnabled) {
                 isSubmitEnabled = false;
-                console.log("正在提交");
+                $myPic.cropper('disable');
                 //提交逻辑
                 $.ajax({
-                    url: 'http://localhost:8080/postcard/submit',
+                    url: 'http://localhost:8100/api/postcard/submit',
                     dataType: "json",
                     contentType: "application/json",
                     type: 'post',
@@ -134,7 +166,7 @@ $(function () {
                         //加载下一张逻辑
                         getNextPostCard();
                     },
-                    error:function (a) {
+                    error: function (a) {
                         console.log("发生错误");
                         console.log(a);
                     }
@@ -146,17 +178,36 @@ $(function () {
     /** @namespace result.pictureWidth 图片宽度 */
     /** @namespace result.postCardFileId  明信片图片ID*/
     function getNextPostCard() {
-        console.log("正在执行下一个postCard");
         // 初始化init
         $.ajax({
             method: 'get',
-            url: 'http://localhost:8080/postcard/next',
+            url: 'http://localhost:8100/api/postcard/next',
             success: function (result) {
-                currentPostCardInfo = result;
                 var $myPic = $('#myPic');
-                $myPic.cropper('setAspectRatio', result.pictureWidth / result.pictureHeight);
-                $myPic.cropper('replace', 'http://localhost:8089/file/' + result.postCardFileId);
-                isSubmitEnabled = true;
+                $myPic.cropper('destroy');
+                $myPic.cropper(options);
+                if (result.code == 200) {
+                    currentPostCardInfo = result.body;
+                    $myPic.cropper('setAspectRatio', currentPostCardInfo.pictureSize.width / currentPostCardInfo.pictureSize.height);
+                    var containerData = $myPic.cropper('getContainerData');
+                    if (containerData.width / containerData.height > currentPostCardInfo.pictureSize.width / currentPostCardInfo.pictureSize.height) {
+                        var tmpCropBox = {};
+                        tmpCropBox.height = containerData.height - 100;
+                        tmpCropBox.width = currentPostCardInfo.pictureSize.width / currentPostCardInfo.pictureSize.height * tmpCropBox.height;
+                        tmpCropBox.left = (containerData.width - tmpCropBox.width) / 2;
+                        tmpCropBox.top = (containerData.height - tmpCropBox.height) / 2;
+                        $myPic.cropper('zoomTo', 1);
+                        $myPic.cropper('setCropBoxData', tmpCropBox);
+                        console.log(tmpCropBox);
+                        console.log($myPic.cropper('getCropBoxData'))
+                    }
+                    // $myPic.cropper().setAspectRatio(currentPostCardInfo.pictureSize.width / currentPostCardInfo.pictureSize.height);
+                    $myPic.cropper('replace', 'http://localhost:8089/file/' + currentPostCardInfo.postCardFileId);
+                    isSubmitEnabled = true;
+                }
+                if (result.code == 404) {
+                    alert("当前已经没有需要处理的明信片，请稍后刷新页面");
+                }
             },
             error: function () {
                 console.log("网络异常");
@@ -179,6 +230,32 @@ $(function () {
             width: canvasData.width,
             height: canvasData.height
         };
+        //如果画布太大，布满画布
+        if ((canvasData.width > cropBoxData.width) && (canvasData.height > cropBoxData.height)) {
+            //调整大小
+            if (cropBoxData.width / cropBoxData.height <= canvasData.width / canvasData.height) {
+                $myPic.cropper('zoomTo', (cropBoxData.height / canvasData.naturalHeight));
+            } else {
+                $myPic.cropper('zoomTo', (cropBoxData.width / canvasData.naturalWidth));
+            }
+            moveMyPicture({deltaX: 0, deltaY: 0});
+            return
+        }
+        //如果画布太小，调大画布
+        if ((canvasData.width < cropBoxData.width) && (canvasData.height < cropBoxData.height)) {
+            //调整大小
+            if (cropBoxData.width / cropBoxData.height >= canvasData.width / canvasData.height) {
+                $myPic.cropper('zoomTo', (cropBoxData.height / canvasData.naturalHeight));
+            } else {
+                $myPic.cropper('zoomTo', (cropBoxData.width / canvasData.naturalWidth));
+            }
+            setTimeout(function () {
+                moveMyPicture({deltaX: 0, deltaY: 0});
+            }, 100);
+            return
+        }
+
+
         var tmpDelta;
         if (targetCanvasData.width > cropBoxData.width && targetCanvasData.height > cropBoxData.height) {
             // 太靠左侧的情况
@@ -249,6 +326,13 @@ $(function () {
         }
         //移动指定的位置
         $pic.cropper('move', a.deltaX, a.deltaY);
+        if (currentPostCardInfo.cropInfo == undefined) {
+            currentPostCardInfo.cropInfo = {};
+        }
+        currentPostCardInfo.cropInfo.left = (cropBoxData.left - canvasData.left) / canvasData.width;
+        currentPostCardInfo.cropInfo.top = (cropBoxData.top - canvasData.top) / canvasData.height;
+        currentPostCardInfo.cropInfo.width = cropBoxData.width / canvasData.width;
+        currentPostCardInfo.cropInfo.height = cropBoxData.height / canvasData.height;
     }
 
 });

@@ -1,0 +1,11 @@
+<config>
+    <Listeners>
+        <!--&lt;!&ndash;the arguments of FileDBListener is the file to log the SQL statement &ndash;&gt;-->
+        <!--<Listener class="com.cownew.JDBMonitor.listenerImpl.FileDBListener" arg="d:/log.txt"/>-->
+        <!--ConsoleDBListener no arguments-->
+        <Listener class="com.soho.database.DBLogger" arg=""/>
+    </Listeners>
+    <JdbcDrivers>
+        <JdbcDriver class="com.mysql.jdbc.Driver"/>
+    </JdbcDrivers>
+</config>

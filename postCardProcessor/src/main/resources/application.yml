@@ -1,0 +1,11 @@
+spring:
+  activemq:
+    broker-url: tcp://localhost:61616
+
+soho:
+  jms:
+    activemq:
+      queue-names:
+        postcard_cropQueue: postCardQueue
+mybatis:
+  mapper-locations: classpath*:mappers/**.xml
