@@ -221,7 +221,7 @@ $.fn.PostCard = function () {
                         width: "auto",
                         height: "auto"
                     })
-                    .attr("src", "http://localhost:8089/file/" + currentData.postCardFileId + "?rotation=" + currentData.cropInfo.rotation);
+                    .attr("src", fileBasePath + '/' + currentData.postCardFileId + "?rotation=" + currentData.cropInfo.rotation);
                 return;//返回，不在接着执行后面的语句
             }
             if (currentData.cropInfo.rotation == undefined) {
@@ -246,7 +246,7 @@ $.fn.PostCard = function () {
             headers: {
                 tokenId: tokenId
             },
-            url: "http://localhost:8100/api/postcard/next",
+            url: apiBasePath + "/postcard/next",
             type: "post",
             success: prepareNewPostCard,
             dataType: "json",
@@ -307,7 +307,7 @@ $.fn.PostCard = function () {
             headers: {
                 tokenId: tokenId
             },
-            url: "http://localhost:8100/api/postcard/submit",
+            url: apiBasePath + "/postcard/submit",
             type: "post",
             success: function (result) {
                 console.log(result);
@@ -345,9 +345,22 @@ $.fn.PostCard = function () {
                     width: "auto",
                     height: "auto"
                 })
-                .attr("src", "http://localhost:8089/file/" + currentData.postCardFileId);
+                .attr('src', fileBasePath + '/' + currentData.postCardFileId);
         } else {
-            alert(data.message);//打印消息
+
+            $("#notifyPostCard")
+                .append($("<div>")
+                    .addClass("nNote")
+                    .addClass("nWarning")
+                    .addClass("hideit")
+                    .append($("<p><strong>警告</strong>当前没有需要处理的明信片，请稍后重试 </p>")));
+            $(".hideit").click(function () {
+                $(this).fadeTo(200, 0.00, function () { //fade
+                    $(this).slideUp(300, function () { //slide up
+                        $(this).remove(); //then remove from the DOM
+                    });
+                });
+            });
             startPollingTimer();
         }
     }

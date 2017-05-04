@@ -12,14 +12,15 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("background/order")
 public class OrderController {
+    @GetMapping("")
+    public String getOrderAll() {
+        return "background/order/order_view";
+    }
+
     @GetMapping("{orderId}")
     public ModelAndView getOrderDetail(@PathVariable("orderId") String orderId, ModelAndView view) {
         view.getModel().put("orderId", orderId);
         view.setViewName("background/order/order_detail");
         return view;
-    }
-    @GetMapping("all")
-    public String getOrderAll() {
-        return "background/order/order_view";
     }
 }

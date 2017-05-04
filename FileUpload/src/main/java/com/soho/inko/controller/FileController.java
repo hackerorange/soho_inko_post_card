@@ -1,6 +1,6 @@
 package com.soho.inko.controller;
 
-import com.soho.inko.entity.FileEntity;
+import com.soho.inko.database.entity.FileEntity;
 import com.soho.inko.service.FileService;
 import com.soho.inko.utils.TypeChecker;
 import com.soho.inko.web.response.BodyResponse;
@@ -32,8 +32,10 @@ public class FileController {
     }
 
     @PostMapping("upload")
-    public BodyResponse<FileEntity> uploadFile(@RequestPart(name = "file") MultipartFile multipartFile, String category) throws IOException {
-        FileEntity fileEntity = fileService.uploadFile(multipartFile, category);
+    public BodyResponse<FileEntity> uploadFile(@RequestPart(name = "file") MultipartFile multipartFile,
+                                               @RequestParam(required = false, defaultValue = "", name = "category") String category,
+                                               @RequestParam(required = false, defaultValue = "", name = "type") String type) throws IOException {
+        FileEntity fileEntity = fileService.uploadFile(multipartFile, category, type);
         BodyResponse<FileEntity> response = new BodyResponse<>();
         response.setBody(fileEntity);
         return response;

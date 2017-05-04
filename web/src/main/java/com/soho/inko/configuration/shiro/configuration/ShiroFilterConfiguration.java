@@ -33,10 +33,4 @@ public class ShiroFilterConfiguration {
         return new SysUserFilter(userCacheService);
     }
 
-//    @Bean
-//    public LogoutFilter logoutFilter() {
-//        LogoutFilter logoutFilter = new LogoutFilter();
-//        logoutFilter.setRedirectUrl("login");
-//        return logoutFilter;
-//    }
 }

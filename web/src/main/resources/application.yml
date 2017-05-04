@@ -18,4 +18,7 @@ soho:
       background: background/index
       background/postcard/tailor: background/postcard/postcard_crop
       background/settings/postcardSize: background/settings/size/size_show
+      background/settings/cardBack: background/settings/cardback/cardback_show
       background/order/all: background/order/order_view
+#    api-base-path: http://192.168.1.119:8100/api
+#    file-base-path: http://192.168.1.119:8089/file

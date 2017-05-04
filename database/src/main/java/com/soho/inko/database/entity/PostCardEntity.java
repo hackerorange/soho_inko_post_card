@@ -1,6 +1,8 @@
 package com.soho.inko.database.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.soho.inko.database.constant.PostCardProcessStatus;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -20,14 +22,51 @@ public class PostCardEntity {
     private Double cropWidth;
     private Double cropHeight;
     private String cropBy;
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Timestamp createAt;
     private String createBy;
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Timestamp updateAt;
     private String updateBy;
     private PostCardProcessStatus processStatus;
+    private String productFileId;
+    private Integer productCopy;
+    private String fileName;
+
+    @Basic
+    @Column(name = "PRODUCT_COPY")
+    public Integer getProductCopy() {
+        return productCopy;
+    }
+
+    public void setProductCopy(Integer productCopy) {
+        this.productCopy = productCopy;
+    }
+
+    @Basic
+    @Column(name = "PRODUCT_FILE_ID")
+    public String getProductFileId() {
+        return productFileId;
+    }
+
+    public void setProductFileId(String productFileId) {
+        this.productFileId = productFileId;
+    }
+
+    @Basic
+    @Column(name = "FILE_NAME")
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
 
     @Id
     @Column(name = "ID")
+    @GenericGenerator(name = "UUID", strategy = "uuid")
+    @GeneratedValue(generator = "UUID")
     public String getId() {
         return id;
     }

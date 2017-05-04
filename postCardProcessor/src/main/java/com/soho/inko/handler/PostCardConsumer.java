@@ -7,11 +7,18 @@ import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Image;
+import com.soho.inko.configuration.properties.FileProperties;
 import com.soho.inko.constant.UnitTypeEnum;
+import com.soho.inko.database.constant.PostCardProcessStatus;
+import com.soho.inko.database.entity.FileEntity;
+import com.soho.inko.database.entity.PostCardEntity;
+import com.soho.inko.database.repository.PostCardRepository;
 import com.soho.inko.domain.PostCardInfoDTO;
 import com.soho.inko.image.Size;
 import com.soho.inko.mapper.FileMapper;
+import com.soho.inko.service.ProcessedFileService;
 import com.soho.inko.utils.PictureUtils;
+import com.soho.inko.utils.TypeChecker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +34,17 @@ import java.util.UUID;
 public class PostCardConsumer implements MessageHandler {
 
     private final FileMapper fileMapper;
+    private final PostCardRepository postCardRepository;
+    private final ProcessedFileService processedFileService;
+    private final FileProperties fileProperties;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    public PostCardConsumer(FileMapper fileMapper) {
+    public PostCardConsumer(FileMapper fileMapper, PostCardRepository postCardRepository, ProcessedFileService processedFileService, FileProperties fileProperties) {
         this.fileMapper = fileMapper;
+        this.postCardRepository = postCardRepository;
+        this.processedFileService = processedFileService;
+        this.fileProperties = fileProperties;
     }
 
     @Override
@@ -43,8 +56,8 @@ public class PostCardConsumer implements MessageHandler {
         String tmpFilePath = tmpFileName + extension;
         String pdfFilePath = tmpFileName + ".pdf";
         File file = new File(filePathByFileId);
-
-        if (file.exists()) {
+        PostCardEntity postCardEntity = postCardRepository.findOne(postCardInfoDTO.getPostCardId());
+        if (file.exists() && !TypeChecker.isNull(postCardEntity)) {
             Size resultSize = new Size(
                     postCardInfoDTO.getPictureSize().getWidth(),
                     postCardInfoDTO.getPictureSize().getHeight());
@@ -139,6 +152,17 @@ public class PostCardConsumer implements MessageHandler {
                     //noinspection ResultOfMethodCallIgnored
                     tmpFile.delete();
                 }
+                FileEntity fileEntity = processedFileService.addNewFile(pdfFile, "PostCardPDF成品", "pdf");
+                if (TypeChecker.isNull(fileEntity)) {
+                    logger.info("保存成品文件的时候发生异常，没有保存成功，正在尝试重新制定明信片裁切");
+                    postCardEntity.setProcessStatus(PostCardProcessStatus.CREATE_SUCCESS_1);
+                } else {
+                    postCardEntity.setProductFileId(fileEntity.getId());
+                }
+                //noinspection ResultOfMethodCallIgnored
+                pdfFile.delete();
+                //保存文件
+                postCardRepository.save(postCardEntity);
             } catch (Exception e) {
                 e.printStackTrace();
             }

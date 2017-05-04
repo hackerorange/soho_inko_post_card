@@ -1,0 +1,265 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--suppress HtmlPresentationalElement -->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <base th:href="${#httpServletRequest.getScheme()+'://'+#httpServletRequest.getServerName()+':'+#httpServletRequest.getServerPort()+#httpServletRequest.getContextPath()}+'/'"/>
+    <title>Crown - premium responsive admin template for backend systems</title>
+    <link th:href="@{css/main.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{css/webUploader.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{css/soho.css}" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="" th:src="@{js/jquery.min.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/spinner/ui.spinner.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/spinner/jquery.mousewheel.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/jquery-ui.min.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/forms/uniform.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/forms/jquery.cleditor.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/forms/jquery.validationEngine-en.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/forms/jquery.validationEngine.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/forms/jquery.tagsinput.min.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/forms/autogrowtextarea.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/forms/jquery.maskedinput.min.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/forms/jquery.dualListBox.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/forms/jquery.inputlimiter.min.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/forms/chosen.jquery.min.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/wizard/jquery.form.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/wizard/jquery.validate.min.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/wizard/jquery.form.wizard.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/tables/datatable.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/tables/tablesort.min.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/tables/resizable.min.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/webUploader/webuploader.html5only.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/ui/jquery.tipsy.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/ui/jquery.collapsible.min.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/ui/jquery.prettyPhoto.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/ui/jquery.progress.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/ui/jquery.timeentry.min.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/ui/jquery.colorpicker.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/ui/jquery.jgrowl.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/ui/jquery.breadcrumbs.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/ui/jquery.sourcerer.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/calendar.min.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/elfinder.min.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/custom.js}"></script>
+    <!--<script type="text/javascript" src="" th:src="@{js/charts/chart.js}"></script>-->
+    <script type="text/javascript" th:inline="JavaScript">
+        var tokenId = [[${tokenId}]];
+        var fileBasePath = [[${fileBasePath}]];
+        var apiBasePath = [[${apiBasePath}]];
+
+        //        <![CDATA[
+        $(function () {
+            //启动的时候刷新数据
+            loadData();
+            //===== 绑定弹窗 =====//
+            $("#dialog-message").dialog({
+                autoOpen: false,
+                modal: true,
+                resizable: false,
+                width: 400,
+                buttons: {
+                    保存: function () {
+                        var data = {};
+                        $('form[name="newSizeForm"]').serializeArray().map(function (x) {
+                            data[x.name] = x.value;
+                        });
+                        console.log(JSON.stringify(data));
+                        $.ajax({
+                            url: apiBasePath + '/dictionary/cardBack',
+                            type: 'post',
+//                            contentType: 'application/json',
+                            data: data,
+//                            content: 'application/json',
+                            success: function (result) {
+                                switch (result.code) {
+                                    case 200:
+                                        loadData();
+                                        $("form[name='newSizeForm']").resetForm();
+                                }
+                            },
+                            error: function (result) {
+                                console.log(result);
+                            }
+                        })
+                    },
+                    取消: function () {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+            // 刷新数据
+            $('#sizeListDetailRefreshButton').on('click', loadData);
+            // ajax请求后台数据库所有尺寸信息
+            function loadData() {
+                $.ajax({
+                    url: apiBasePath + '/dictionary/cardBack/',
+                    type: 'get',
+                    success: function (result) {
+                        switch (result.code) {
+                            case 92:
+                                window.location.reload();
+                                break;
+                            case 200:
+                                var sizeList = result.body;
+//                                console.log(result.body);
+                                var $sizeListDetail = $('#sizeListDetail');
+                                $sizeListDetail.html("");
+                                $(sizeList).each(function (index, data) {
+                                    var rowClass = index % 2 == 0 ? 'odd' : 'even';
+                                    $sizeListDetail.append(
+                                        $('<tr>')
+                                            .addClass(rowClass)
+                                            .append($('<td colspan="1" rowspan="1">').html(data.title))
+                                            //明信片宽度
+                                            .append($('<td colspan="1" rowspan="1" class="center">')
+                                                .append($('<img>')
+                                                    .attr('src', fileBasePath+ '/' + data.fileId)
+                                                    .css('height', '100px')))
+                                            //明信片相关操作
+                                            .append($('<td colspan="1" rowspan="1" class="actBtns">')
+                                            //更新尺寸按钮
+                                            //删除尺寸按钮
+                                                .append($('<a href="javascript:void(0)" class="tipS" original-title="删除反面样式">')
+                                                        .append('<img src="images/icons/remove.png" alt=""/>')
+                                                        .attr('backTitle', data.title)
+                                                        .on('click', function (data) {
+//                                                        console.log();
+                                                            var cardBackTitleToBeRemove = $(data.currentTarget).attr("backTitle");
+                                                            //询问是否真的删除此尺寸，如果点击是，执行ajax删除操作
+                                                            if (confirm('是否删除此尺寸?')) {
+                                                                $.ajax({
+                                                                        type: 'delete',
+                                                                        url: apiBasePath + '/dictionary/cardBack/' + cardBackTitleToBeRemove,
+                                                                        success: function (result) {
+                                                                            switch (result.code) {
+                                                                                case 200:
+                                                                                    loadData();
+                                                                                    break;
+                                                                                default:
+                                                                                    break;
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                )
+                                                            }
+                                                        })
+                                                )));
+//                                    console.log(this);
+                                });
+                                break;
+                            default:
+//                                console.log(result);
+                                break;
+                        }
+                    }
+                })
+            }
+
+            var uploader = WebUploader.create({
+                // 文件接收服务端。
+                server: fileBasePath+ '/upload',
+                // 选择文件的按钮。可选。
+                // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+                pick: {
+                    id: '#uploadPicker',
+                    innerHTML: '添加新的反面'
+                },
+                auto: true,
+                // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+                resize: false
+            });
+            uploader.on('uploadAccept', function (file, response) {
+                console.log("文件上传完成");
+                console.log(file);
+                console.log(response);
+                $('#formFileId').attr('value', response.body.id);
+                console.log(file.file.name);
+                var data = {};
+                var backName = file.file.name;
+                data.fileId = response.body.id;
+                data.name = backName.substring(0, backName.lastIndexOf('.'));
+
+                $.ajax({
+                    url: apiBasePath + '/dictionary/cardBack',
+                    type: 'post',
+                    data: data,
+                    success: function (result) {
+                        switch (result.code) {
+                            case 200:
+                                loadData();
+                                $("form[name='newSizeForm']").resetForm();
+                        }
+                    },
+                    error: function (result) {
+                        console.log(result);
+                    }
+                })
+            });
+        });
+        //        ]]>
+    </script>
+</head>
+<body>
+<p shiro:guest="">
+    你好UA
+</p>
+<!--包含左侧边框-->
+<div th:include="background/common/common::navigation_left(${'设置'},${'明信片反面'})"></div>
+<div id="rightSide">
+    <!-- Top fixed navigation -->
+    <div th:include="background/common/common::navigation_top"></div>
+    <div class="statsRow">
+        <div class="wrapper">
+            <div class="controlB">
+                <ul>
+                    <li id="uploadPicker"></li>
+                    <li>
+                        <div id="sizeListDetailRefreshButton" class="refreshButton">刷新反面列表</div>
+                    </li>
+                </ul>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+    <div class="line"></div>
+
+    <!--
+    =======
+    我的布局
+    =======
+    -->
+    <!--<div class="statsRow">-->
+    <!--<div class="widgets">-->
+    <!--<div class="oneTwo">-->
+    <!--<a href="#" title="" class="wContentButton bluewB">Button as a widget</a>-->
+    <!--</div>-->
+    <!--<div class="oneTwo">-->
+    <!--<a href="#" title="" class="wContentButton redwB">Button as a widget</a>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+
+
+    <div class="wrapper">
+        <div class="widget">
+            <div class="title"><img src="" th:src="@{images/icons/dark/full2.png}" alt="" class="titleIcon"/><h6>明信片反面图案列表</h6></div>
+            <table cellpadding="0" cellspacing="0" border="0" class="display sTable">
+                <thead>
+                <tr>
+                    <td>反面名称</td>
+                    <td>反面预览</td>
+                    <td>相关操作</td>
+                </tr>
+                </thead>
+                <tbody id="sizeListDetail">
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Footer line -->
+    <div th:include="background/common/common::footer"></div>
+</div>
+<div class="clear"></div>
+</body>
+</html>

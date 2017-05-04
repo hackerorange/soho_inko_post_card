@@ -6,5 +6,11 @@ spring:
     broker-url: tcp://localhost:61616
   jpa:
     show-sql: true
+  http:
+    multipart:
+      max-file-size: 1000MB
+      max-request-size: 100MB
+  mvc:
+    date-format: yyyy-MM-dd HH:mm:ss
 mybatis:
   mapper-locations: classpath*:mappers/**.xml

@@ -156,7 +156,7 @@ $(function () {
                 $myPic.cropper('disable');
                 //提交逻辑
                 $.ajax({
-                    url: 'http://localhost:8100/api/postcard/submit',
+                    url: apiBasePath+ '/postcard/submit',
                     dataType: "json",
                     contentType: "application/json",
                     type: 'post',
@@ -181,7 +181,7 @@ $(function () {
         // 初始化init
         $.ajax({
             method: 'get',
-            url: 'http://localhost:8100/api/postcard/next',
+            url: apiBasePath+ '/postcard/next',
             success: function (result) {
                 var $myPic = $('#myPic');
                 $myPic.cropper('destroy');
@@ -202,7 +202,7 @@ $(function () {
                         console.log($myPic.cropper('getCropBoxData'))
                     }
                     // $myPic.cropper().setAspectRatio(currentPostCardInfo.pictureSize.width / currentPostCardInfo.pictureSize.height);
-                    $myPic.cropper('replace', 'http://localhost:8089/file/' + currentPostCardInfo.postCardFileId);
+                    $myPic.cropper('replace', fileBasePath+ '/' + currentPostCardInfo.postCardFileId);
                     isSubmitEnabled = true;
                 }
                 if (result.code == 404) {

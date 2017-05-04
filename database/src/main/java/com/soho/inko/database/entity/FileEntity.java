@@ -1,9 +1,8 @@
-package com.soho.inko.entity;
-
-import org.hibernate.validator.constraints.NotEmpty;
+package com.soho.inko.database.entity;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Calendar;
 
 /**
  * Created by ZhongChongtao on 2017/3/26.
@@ -16,6 +15,17 @@ public class FileEntity {
     private String path;
     private Timestamp uploadDate;
     private String category;
+    private String fileType;
+
+    @Basic
+    @Column(name = "FILE_TYPE")
+    public String getFileType() {
+        return fileType;
+    }
+
+    public void setFileType(String fileType) {
+        this.fileType = fileType;
+    }
 
     @Id
     @Column(name = "ID")
@@ -95,6 +105,6 @@ public class FileEntity {
 
     @PrePersist
     public void prePersist() {
-        this.setUploadDate(new Timestamp(System.currentTimeMillis()));
+        this.setUploadDate(new Timestamp(Calendar.getInstance().getTimeInMillis()));
     }
 }

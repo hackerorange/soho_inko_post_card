@@ -1,6 +1,6 @@
 package com.soho.inko.service;
 
-import com.soho.inko.entity.FileEntity;
+import com.soho.inko.database.entity.FileEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -15,10 +15,11 @@ public interface FileService {
      *
      * @param file     multipartFile 文件
      * @param category 文件分类
+     * @param type
      * @return 上传成功后，文件相关信息
      * @throws IOException 发生异常的时候，抛出异常
      */
-    public FileEntity uploadFile(MultipartFile file, String category) throws IOException;
+    public FileEntity uploadFile(MultipartFile file, String category, String type) throws IOException;
 
     /**
      * 根据fileId，获取原始文件

@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by ZhongChongtao on 2017/2/13.
  */
-public class PageResultResponse<T> extends AbstractResponse {
+public class PageResultResponse<T> extends StandardResponse {
     private List<T> body;
     private int total;
     private int pageCount;

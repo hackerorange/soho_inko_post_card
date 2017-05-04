@@ -2,8 +2,12 @@ package com.soho.inko.utils;
 
 import com.soho.inko.constant.im4java.ImageCommandType;
 import com.soho.inko.image.Size;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.rendering.PDFRenderer;
 import org.im4java.core.*;
 import org.im4java.process.ArrayListOutputConsumer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -21,6 +25,8 @@ public class PictureUtils {
     private static boolean IS_WINDOWS_OS = System.getProperty("os.name").toLowerCase().contains("win");
     private static String PICTURE_MAGIC_PATH = "D:/Program Files (x86)/GraphicsMagick-1.3.25-Q16";
     private static boolean USE_GRAPHICS_MAGICK_PATH = true;
+
+    private static Logger logger = LoggerFactory.getLogger(PictureUtils.class);
 
     /**
      * 初始化图片处理程序路径路径
@@ -135,6 +141,9 @@ public class PictureUtils {
             op.rotate(rotation);
         }
         op.addImage(targetPath);
+        logger.info("正在生成缩略图");
+        logger.info("原始路径为:" + sourcePath);
+        logger.info("目标路径为:" + sourcePath);
         getImageCommand(ImageCommandType.CONVERT).run(op);
     }
 
@@ -180,14 +189,6 @@ public class PictureUtils {
 
         ConvertCmd convert = new ConvertCmd();
         getImageCommand(ImageCommandType.CONVERT).run(op);
-    }
-
-    public static void convertPdfToImage(String source, String targetPath) throws InterruptedException, IOException, IM4JavaException {
-        IMOperation op = new IMOperation();
-        op.addImage(source);
-        op.addImage(targetPath);
-        getImageCommand(ImageCommandType.CONVERT).run(op);
-
     }
 
     /**
@@ -292,16 +293,26 @@ public class PictureUtils {
     /**
      * 生成缩略图
      *
-     * @param sourcePath      原始图像
-     * @param targetPath      缩略图路径
-     * @param targetMaxWidth  缩略图最大宽度
-     * @param targetMaxHeight 缩略图最大高度
-     * @return 生成的缩略图路径
+     * @param sourcePath 原始PDF文件路径
+     * @param targetPath 生成的目标文件路径
+     * @return 是否生成图片成功
      */
-    public static String thumbnailImage(String sourcePath, String targetPath, int targetMaxWidth, int targetMaxHeight) {
+    public static boolean convertSinglePagePdfToPicture(String sourcePath, String targetPath) {
+        try {
+            File file = new File(sourcePath);
+            if (!file.exists()) {
+                return false;
+            }
+            PDDocument doc = PDDocument.load(file);
+            PDFRenderer renderer = new PDFRenderer(doc);
+            int pageCount = doc.getNumberOfPages();
+            BufferedImage image = renderer.renderImageWithDPI(0, 72);
+            ImageIO.write(image, "PNG", new File(targetPath));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-
-        return targetPath;
+        return true;
     }
 
 
@@ -325,8 +336,9 @@ public class PictureUtils {
         return imageCommand;
     }
 
+
     public static void main(String[] args) throws Exception {
-        convertPdfToImage("D:/1.pdf", "D:/1.jpg");
+//        convertPdfToImage("D:/1.pdf", "D:/1.jpg");
 //        ConvertCmd convertCmd = new ConvertCmd(true);
 //        Map<String, String> imageInfo = getImageInfo("D:\\Desktop\\796544326121704559.jpg");
 //        System.out.println(imageInfo);

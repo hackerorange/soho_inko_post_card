@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.core.RedisTemplate;
+
 /**
  * Created by ZhongChongtao on 2017/2/10.
  */
@@ -23,6 +24,7 @@ public class RedisCacheConfiguration {
         redisCacheManager.setUsePrefix(true);
         return redisCacheManager;
     }
+
     @Autowired
     @Bean
     public CacheManager thirdCacheManager(RedisTemplate redisTemplate) {

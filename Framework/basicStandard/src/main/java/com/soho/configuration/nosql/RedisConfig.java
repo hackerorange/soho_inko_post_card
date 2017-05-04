@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -13,12 +14,22 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 
+import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 /**
  * Created by ZhongChongtao on 2017/2/10.
  */
 @Configuration
 @EnableCaching
 public class RedisConfig {
+
+    @Bean(name = "dateKeyGenerator")
+    public KeyGenerator dateKeyGenerator() {
+        return (target, method, params) -> new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+    }
+
     @Autowired
     @Bean
     @Primary

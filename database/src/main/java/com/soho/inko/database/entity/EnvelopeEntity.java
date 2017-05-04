@@ -1,10 +1,13 @@
 package com.soho.inko.database.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.soho.inko.database.constant.CropTypeEnum;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Calendar;
 
 /**
  * Created by ZhongChongtao on 2017/4/3.
@@ -20,12 +23,48 @@ public class EnvelopeEntity {
     private String cropperId;
     private Integer productWidth;
     private Integer productHeight;
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Timestamp createAt;
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Timestamp updateAt;
+    @JsonIgnore
     private String createBy;
+    @JsonIgnore
     private String updateBy;
     private CropTypeEnum cropType;
+    private String productFileId;
+    private String productFileName;
+    private Integer productCopy;
 
+    @Basic
+    @Column(name = "PRODUCT_FILE_ID")
+    public String getProductFileId() {
+        return productFileId;
+    }
+
+    public void setProductFileId(String productFileId) {
+        this.productFileId = productFileId;
+    }
+
+    @Basic
+    @Column(name = "PRODUCT_FILE_NAME")
+    public String getProductFileName() {
+        return productFileName;
+    }
+
+    public void setProductFileName(String productFileName) {
+        this.productFileName = productFileName;
+    }
+
+    @Basic
+    @Column(name = "PRODUCT_COPY")
+    public Integer getProductCopy() {
+        return productCopy;
+    }
+
+    public void setProductCopy(Integer productCopy) {
+        this.productCopy = productCopy;
+    }
 
     /**
      * 裁切类型
@@ -186,6 +225,9 @@ public class EnvelopeEntity {
         if (updateBy != null ? !updateBy.equals(that.updateBy) : that.updateBy != null) return false;
         if (cropType != null ? !cropType.equals(that.cropType) : that.cropType != null) return false;
         if (orderId != null ? !orderId.equals(that.orderId) : that.orderId != null) return false;
+        if (productCopy != null ? !productCopy.equals(that.productCopy) : that.productCopy != null) return false;
+        if (productFileId != null ? !productFileId.equals(that.productFileId) : that.productFileId != null) return false;
+        if (productFileName != null ? !productFileName.equals(that.productFileName) : that.productFileName != null) return false;
 
         return true;
     }
@@ -205,6 +247,21 @@ public class EnvelopeEntity {
         result = 31 * result + (updateBy != null ? updateBy.hashCode() : 0);
         result = 31 * result + (cropType != null ? cropType.hashCode() : 0);
         result = 31 * result + (orderId != null ? orderId.hashCode() : 0);
+        result = 31 * result + (productCopy != null ? productCopy.hashCode() : 0);
+        result = 31 * result + (productFileId != null ? productFileId.hashCode() : 0);
+        result = 31 * result + (productFileName != null ? productFileName.hashCode() : 0);
         return result;
     }
+
+    @PrePersist
+    public void prePersist() {
+        this.createAt = new Timestamp(Calendar.getInstance().getTimeInMillis());
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.updateAt = new Timestamp(Calendar.getInstance().getTimeInMillis());
+    }
+
+
 }

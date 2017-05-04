@@ -1,4 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.soho.configuration.cache.RedisCacheConfiguration,\
   com.soho.configuration.jms.ActiveMqConfiguration,\
-  com.soho.configuration.nosql.RedisConfig
+  com.soho.configuration.nosql.RedisConfig,\
+  com.soho.configuration.context.ApplicationContextHolder

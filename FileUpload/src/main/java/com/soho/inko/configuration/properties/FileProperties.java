@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "soho.file")
 public class FileProperties {
 	private String filePathTemplate = "D:/files/#YEAR/#MONTH/#DAY/#FILE_NAME";
-	private String tmpFilePathTemplate = "D:/tmpFiles/#FILE_NAME_#ROTATION";
+	private String tmpFilePathTemplate = "D:/tmpFiles/#FILE_NAME_#ROTATION.png";
 
 	public String getTmpFilePathTemplate() {
 		return tmpFilePathTemplate;

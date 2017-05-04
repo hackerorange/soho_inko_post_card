@@ -4,19 +4,27 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
-    <base th:href="${#httpServletRequest.getScheme()+'://'+#httpServletRequest.getServerName()+':'+#httpServletRequest.getServerPort()+#httpServletRequest.getContextPath()}+'/background'"/>
+    <base th:href="${#httpServletRequest.getScheme()+'://'+#httpServletRequest.getServerName()+':'+#httpServletRequest.getServerPort()+#httpServletRequest.getContextPath()}+'/'"/>
     <title>Crown - premium responsive admin template for backend systems</title>
     <link th:href="@{css/main.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{css/webUploader.css}" rel="stylesheet" type="text/css"/>
+
+
+    <style type="text/css">
+        .envelopeDetailActive {
+            background: none repeat scroll 0 0 #a9edf9;
+
+        }
+
+        #envelopeDetails tr:hover {
+            background: none repeat scroll 0 0 #a9edf9;
+            cursor: pointer;
+        }
+    </style>
     <script type="text/javascript" src="" th:src="@{js/jquery.min.js}"></script>
     <script type="text/javascript" src="" th:src="@{js/plugins/spinner/ui.spinner.js}"></script>
     <script type="text/javascript" src="" th:src="@{js/plugins/spinner/jquery.mousewheel.js}"></script>
     <script type="text/javascript" src="" th:src="@{js/jquery-ui.min.js}"></script>
-    <script type="text/javascript" src="" th:src="@{js/plugins/charts/excanvas.min.js}"></script>
-    <script type="text/javascript" src="" th:src="@{js/plugins/charts/jquery.flot.js}"></script>
-    <script type="text/javascript" src="" th:src="@{js/plugins/charts/jquery.flot.orderBars.js}"></script>
-    <script type="text/javascript" src="" th:src="@{js/plugins/charts/jquery.flot.pie.js}"></script>
-    <script type="text/javascript" src="" th:src="@{js/plugins/charts/jquery.flot.resize.js}"></script>
-    <script type="text/javascript" src="" th:src="@{js/plugins/charts/jquery.sparkline.min.js}"></script>
     <script type="text/javascript" src="" th:src="@{js/plugins/forms/uniform.js}"></script>
     <script type="text/javascript" src="" th:src="@{js/plugins/forms/jquery.cleditor.js}"></script>
     <script type="text/javascript" src="" th:src="@{js/plugins/forms/jquery.validationEngine-en.js}"></script>
@@ -30,10 +38,6 @@
     <script type="text/javascript" src="" th:src="@{js/plugins/wizard/jquery.form.js}"></script>
     <script type="text/javascript" src="" th:src="@{js/plugins/wizard/jquery.validate.min.js}"></script>
     <script type="text/javascript" src="" th:src="@{js/plugins/wizard/jquery.form.wizard.js}"></script>
-    <script type="text/javascript" src="" th:src="@{js/plugins/uploader/plupload.js}"></script>
-    <script type="text/javascript" src="" th:src="@{js/plugins/uploader/plupload.html5.js}"></script>
-    <script type="text/javascript" src="" th:src="@{js/plugins/uploader/plupload.html4.js}"></script>
-    <script type="text/javascript" src="" th:src="@{js/plugins/uploader/jquery.plupload.queue.js}"></script>
     <script type="text/javascript" src="" th:src="@{js/plugins/tables/datatable.js}"></script>
     <script type="text/javascript" src="" th:src="@{js/plugins/tables/tablesort.min.js}"></script>
     <script type="text/javascript" src="" th:src="@{js/plugins/tables/resizable.min.js}"></script>
@@ -48,42 +52,42 @@
     <script type="text/javascript" src="" th:src="@{js/plugins/ui/jquery.sourcerer.js}"></script>
     <script type="text/javascript" src="" th:src="@{js/plugins/calendar.min.js}"></script>
     <script type="text/javascript" src="" th:src="@{js/plugins/elfinder.min.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/webUploader/webuploader.html5only.js}"></script>
     <script type="text/javascript" src="" th:src="@{js/custom.js}"></script>
+
+
     <!--<script type="text/javascript" src="" th:src="@{js/charts/chart.js}"></script>-->
     <script type="text/javascript" th:inline="JavaScript">
         var tokenId = [[${tokenId}]];
+        var orderId = [[${orderId}]];
+        var envelopeId = [[${envelopeId}]];
+        var apiBasePath = [[${apiBasePath}]];
+        var currentEnvelope;
         //        <![CDATA[
         $(function () {
             $("#dialog-message").dialog({
                 autoOpen: false,
                 modal: true,
                 resizable: false,
-                width: 400,
+                width: 500,
                 buttons: {
                     保存: function () {
-                        var $dialog_this = $(this);
                         var data = {};
-                        $('form[name="newOrderForm"]').serializeArray().map(function (x) {
+                        $('form[name="newEnvelopeForm"]').serializeArray().map(function (x) {
                             data[x.name] = x.value;
                         });
                         console.log(data);
                         $.ajax({
-                            url: 'http://localhost:8100/api/order',
-                            headers: {
-                                tokenId: tokenId
-                            },
+                            url: apiBasePath + '/order/' + orderId,
+                            headers: tokenId,
                             type: 'post',
-//                            contentType: 'application/json',
-                            data: {
-                                taobaoId: data.taobaoId
-                            },
+                            data: data,
 //                            content: 'application/json',
                             success: function (result) {
                                 switch (result.code) {
                                     case 200:
-                                        loadData();
                                         $(this).dialog("close");
-                                        window.location.href = "background/order/" + result.body.id;
+                                        loadOrderDetail();
                                 }
                             },
                             error: function (result) {
@@ -97,22 +101,40 @@
                 }
             });
 
-            $("#opener").click(function () {
-                $("form[name='newSizeForm']").resetForm();
+            $("#addNewEnvelope").click(function () {
+                $("form[name='newEnvelopeForm']").resetForm();
                 $("#dialog-message").dialog("open");
                 return false;
             });
 
 
             //启动的时候刷新数据
-            loadData();
-            //===== 绑定弹窗 =====//
-            //刷新数据
-            $('#orderListDetailRefreshButton').on('click', loadData);
+            loadOrderDetail();
+            $('#orderListDetailRefreshButton').on('click', loadOrderDetail);
 //          ajax请求后台数据库所有尺寸信息
-            function loadData() {
+            function loadOrderDetail() {
+                console.log("==============================");
+                //获取所有背景信息
                 $.ajax({
-                    url: 'http://localhost:8100/api/order',
+                    url: apiBasePath + '/dictionary/cardBack',
+                    type: 'get',
+                    success: function (result) {
+                        $('#backgroundSelect').html('');
+                        $(result.body).each(function (index, data) {//添加到反面样式
+                            $('#backgroundSelect')
+                                .append($('<option>')
+                                    .attr('value', data.id)//值为ID
+                                    .attr('option', data.title)//title为内容
+                                    .html(data.title)
+                                );
+                        })
+                    }
+
+                });
+
+
+                $.ajax({
+                    url: apiBasePath + '/order/' + orderId,
                     type: 'get',
                     success: function (result) {
                         switch (result.code) {
@@ -120,47 +142,49 @@
                                 window.location.reload();
                                 break;
                             case 200:
-                                var sizeList = result.body;
-//                                console.log(result.body);
-                                var $sizeListDetail = $('#orderListDetail');
-                                $sizeListDetail.html("");
-                                $(sizeList).each(function (index, data) {
-                                    var rowClass = index % 2 == 0 ? 'odd' : 'even';
-                                    $sizeListDetail.append(
-                                        $('<tr>')
-                                            .addClass(rowClass)
-                                            .append($('<td colspan="1" rowspan="1">')
-                                                .append($('<a>')
-                                                    .attr('href', 'background/order/' + data.id)
-                                                    .html(data.id)
-                                                ))
-                                            //明信片宽度
-                                            .append($('<td colspan="1" rowspan="1" class="center">').html(data.customerTaobaoId))
-                                            //明信片高度
-                                            .append($('<td colspan="1" rowspan="1" class="center">').html(data.createAccountId))
-                                            //创建日期
-                                            .append($('<td colspan="1" rowspan="1" class="center">').html(data.createDate))
-                                            //明信片相关操作
-                                            .append($('<td colspan="1" rowspan="1" class="actBtns">')
-                                            //删除尺寸按钮
-                                                .append($('<a href="javascript:void(0)" class="tipS" original-title="delete">')
+                                var sizeList = result.body.envelopeEntities;
+                                //当前没有记录的情况下，跳转到创建页面
+                                if ($(sizeList).size() == 0) {
+                                    window.location = 'background/order/' + orderId + '/new';
+                                } else {
+                                    var $envelopeDetails = $('#envelopeDetails');
+                                    $envelopeDetails.html("");
+                                    $(sizeList).each(function (index, data) {
+                                        $envelopeDetails.append(
+                                            $('<tr>')
+                                                .on('click', function () {
+                                                    $(this)
+                                                        .addClass('envelopeDetailActive')
+                                                        .siblings().removeClass('envelopeDetailActive');
+                                                    window.location = 'background/order/' + orderId + '/' + data.envelopeEntity.id;
+                                                })
+                                                //正面样式
+                                                .append($('<td>')
+                                                    .append($('<a>')
+                                                        .attr('href', 'background/order/' + orderId + '/' + data.envelopeEntity.id)
+                                                        .html(data.envelopeEntity.formatTypeId)))
+                                                //反面板式
+                                                .append($('<td>').html(data.envelopeEntity.backgroundId))
+                                                //宽度
+                                                .append($('<td>').html(data.envelopeEntity.productWidth))
+                                                //高度
+                                                .append($('<td>').html(data.envelopeEntity.productHeight))
+                                                .append($('<td>')
+                                                    .append($('<a href="javascript:void(0)" class="tipS" original-title="delete">')
                                                         .append('<img src="images/icons/remove.png" alt=""/>')
-                                                        .attr('orderId', data.id)
-                                                        .on('click', function (data) {
-//                                                        console.log();
-                                                            var sizeIdToBeRemove = $(data.currentTarget).attr("orderId");
-                                                            //询问是否真的删除此尺寸，如果点击是，执行ajax删除操作
-                                                            if (confirm('确认删除此订单?')) {
+                                                        .attr('envelopeId', data.envelopeEntity.id)
+                                                        .on('click', function () {
+                                                            if (confirm('是否真的删除此明信片集合，删除后，此明信片集合下的所有明信片都将被删除?')) {
                                                                 $.ajax({
                                                                         type: 'delete',
                                                                         headers: {
                                                                             tokenId: tokenId
                                                                         },
-                                                                        url: 'http://localhost:8100/api/order/' + sizeIdToBeRemove,
+                                                                        url: apiBasePath + '/order/' + orderId + '/' + data.envelopeEntity.id,
                                                                         success: function (result) {
                                                                             switch (result.code) {
                                                                                 case 200:
-                                                                                    loadData();
+                                                                                    loadOrderDetail();
                                                                                     break;
                                                                                 default:
                                                                                     break;
@@ -170,18 +194,23 @@
                                                                 )
                                                             }
                                                         })
-                                                )));
+                                                    )
+                                                )
+
+                                            //明信片相关操作
+                                        );
 //                                    console.log(this);
-                                });
+                                    });
+                                }
                                 break;
                             default:
-//                                console.log(result);
+                                window.location = 'background/order';
                                 break;
                         }
                     }
-                })
+                });
+                //获取所有尺寸信息
             }
-
         });
         //        ]]>
     </script>
@@ -192,26 +221,6 @@
 <div id="rightSide">
     <!-- Top fixed navigation -->
     <div th:include="background/common/common::navigation_top"></div>
-    <div class="statsRow">
-        <div class="wrapper">
-            <div class="controlB">
-                <ul>
-                    <li>
-                        <a href="javascript:void(0);" title="" id="opener">
-                            <img src="" th:src="@{images/icons/control/32/plus.png}" alt=""/><span>创建新订单</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0);" id="orderListDetailRefreshButton" title="">
-                            <img src="" th:src="@{images/icons/control/32/database.png}" alt=""/><span>刷新订单列表</span>
-                        </a>
-                    </li>
-                </ul>
-                <div class="clear"></div>
-            </div>
-        </div>
-    </div>
-    <div class="line"></div>
 
     <!--
     =======
@@ -223,26 +232,60 @@
     <div class="wrapper">
 
         <div class="uDialog">
-            <div id="dialog-message" title="创建新的订单">
+            <div id="dialog-message" title="添加新的明信片集合">
                 <!--<p><img src="" th:src="@{images/icons/color/tick.png}" alt="" class="icon"/>Your files have downloaded successfully into the My Downloads folder.</p>-->
                 <!--<p>Currently using <strong>36% of your storage space</strong></p>-->
 
                 <div class="uiForm">
-                    <form class="dialog" name="newOrderForm">
-                        <table style="width: 100%">
-                            <tr>
-                                <td style="width: 100px;">客户淘宝ID</td>
-                                <td><input name="taobaoId" title="taobaoId"/></td>
-                            </tr>
-                            <!--<tr>-->
-                            <!--<td>尺寸宽度</td>-->
-                            <!--<td><input name="width" title="sizeName"/></td>-->
-                            <!--</tr>-->
-                            <!--<tr>-->
-                            <!--<td>尺寸高度　</td>-->
-                            <!--<td><input name="height" title="sizeName"/></td>-->
-                            <!--</tr>-->
-                        </table>
+                    <!--/*@thymesVar id="orderId" type="java.lang.String"*/-->
+                    <form class="dialog" name="newEnvelopeForm">
+                        <div class="formRow">
+                            <table>
+                                <tr style="height: 40px">
+                                    <td style="width: 100px"><label>正面版式</label></td>
+                                    <td>
+                                        <select name="cardFormat" title="" id="formatSelect">
+                                            <option value="1" selected="selected">A版</option>
+                                            <option value="2">B版</option>
+                                            <option value="3">C版</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr style="height: 40px">
+                                    <td style="width: 100px"><label>背面图案</label></td>
+                                    <td>
+                                        <select name="cardBack" title="" id="backgroundSelect">
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr style="height: 40px">
+                                    <td style="width: 100px"><label>裁切类型</label></td>
+                                    <td>
+                                        <select name="cropType" title="" id="cropType">
+                                            <option selected="selected" value="CROP_AND_WHITE">自动</option>
+                                            <option value="CROP">只留白边</option>
+                                            <option value="WHITE">裁切，无白边</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr style="height: 40px">
+                                    <td style="width: 100px"><label>成品宽度</label></td>
+                                    <td><input name="width"/></td>
+                                </tr>
+                                <tr style="height: 40px">
+                                    <td style="width: 100px"><label>成品高度</label></td>
+                                    <td><input name="height"/></td>
+                                </tr>
+                                <tr style="height: 40px">
+                                    <td style="width: 100px"><label>成品份数</label></td>
+                                    <td><input name="copy" value="1"/></td>
+                                </tr>
+                                <tr style="height: 40px">
+                                    <td style="width: 100px"><label>成品文件名称</label></td>
+                                    <td><input name="productFileName"/></td>
+                                </tr>
+                            </table>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -254,50 +297,42 @@
 
         </div>
         <div class="widgets">
-            <div class="oneThree" style="height: 500px;">
+            <div class="oneThree">
                 <div class="widget">
-                    <div class="title"><img src="" th:src="@{images/icons/dark/add.png}" alt="" class="titleIcon"/><h6>订单相关信息</h6></div>
+                    <div class="title">
+                        <img src="" th:src="@{images/icons/dark/add.png}" alt="" class="titleIcon"/><h6>订单相关信息</h6>
+                    </div>
+                    <div class="body" style="display: block;height: 100px">
+                    </div>
                 </div>
             </div>
-
-
             <div class="twoOne">
                 <div class="widget">
-                    <div class="title"><img src="" th:src="@{images/icons/dark/add.png}" alt="" class="titleIcon"/><h6>明信片集合</h6></div>
-                    <ul class="tabs">
-                        <li class="activeTab"><a href="#tab1">Tab active</a></li>
-                        <li class=""><a href="#tab2">Tab inactive</a></li>
-                    </ul>
-
-                    <div class="tab_container" style="height: 500px;">
-                        <div id="tab1" class="tab_content" style="display: block;">This tab is active</div>
-                        <div id="tab2" class="tab_content" style="display: none;"> This tab is active now</div>
+                    <div class="title">
+                        <img src="" th:src="@{images/icons/dark/add.png}" alt="" class="titleIcon"/><h6>明信片集合信息</h6>
+                        <div class="topIcons">
+                            <!--<a id="" href="javascript:void(0);" class="tipS" original-title="Print invoice"><img src="" th:src="@{images/icons/printTop.png}" alt=""/></a>-->
+                            <a id="addNewEnvelope" href="javascript:void(0);" class="tipS" original-title="添加新的集合"><img src="" th:src="@{images/icons/editTop.png}" alt=""/></a>
+                        </div>
                     </div>
-                    <div class="clear"></div>
+                    <table cellpadding="0" cellspacing="0" width="100%" class="sTable">
+                        <thead>
+                        <tr>
+                            <td width="80">正面版式</td>
+                            <td width="80">反面版式</td>
+                            <td width="80">成品宽度</td>
+                            <td width="80">成品高度</td>
+                            <td width="40">删除</td>
+                        </tr>
+                        </thead>
+                        <tbody id="envelopeDetails">
+                        <tr>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-
-
-        <!--<div class="widget">-->
-        <!--<div class="title"><img src="" th:src="@{images/icons/dark/full2.png}" alt="" class="titleIcon"/><h6>尺寸列表</h6></div>-->
-        <!--<table cellpadding="0" cellspacing="0" border="0" class="display sTable">-->
-        <!--<thead>-->
-        <!--<tr>-->
-        <!--&lt;!&ndash;<td>尺寸ID</td>&ndash;&gt;-->
-        <!--<td style="width: 250px">订单编号</td>-->
-        <!--<td>客户淘宝ID</td>-->
-        <!--<td style="width: 200px">创建用户ID</td>-->
-        <!--<td style="width: 200px">创建时间</td>-->
-        <!--<td style="width: 100px">删除订单</td>-->
-        <!--</tr>-->
-        <!--</thead>-->
-        <!--<tbody id="orderListDetail">-->
-        <!--</tbody>-->
-        <!--</table>-->
-        <!--</div>-->
-
-
     </div>
     <!-- Footer line -->
     <div th:include="background/common/common::footer"></div>

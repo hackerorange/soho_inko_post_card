@@ -74,4 +74,9 @@ public class OrderServiceImpl implements IOrderService {
         orderRepository.delete(orderId);
         return true;
     }
+
+    @Override
+    public OrderEntity findOrderById(String orderId) {
+        return orderRepository.findOne(orderId);
+    }
 }

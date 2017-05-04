@@ -14,6 +14,24 @@ import java.util.Map;
 public class WebProperties {
 
     private Map<String, String> viewControllers;
+    private String apiBasePath = "http://localhost:8100/api";
+    private String fileBasePath = "http://localhost:8089/file";
+
+    public String getFileBasePath() {
+        return fileBasePath;
+    }
+
+    public void setFileBasePath(String fileBasePath) {
+        this.fileBasePath = fileBasePath;
+    }
+
+    public String getApiBasePath() {
+        return apiBasePath;
+    }
+
+    public void setApiBasePath(String apiBasePath) {
+        this.apiBasePath = apiBasePath;
+    }
 
     public Map<String, String> getViewControllers() {
         return viewControllers;

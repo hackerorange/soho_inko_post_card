@@ -42,4 +42,12 @@ public interface IOrderService {
      * @return 订单
      */
     boolean deleteByOrderId(String orderId);
+
+    /**
+     * 根据订单ID，获取订单
+     *
+     * @param orderId 订单ID
+     * @return 对应的订单
+     */
+    OrderEntity findOrderById(String orderId);
 }

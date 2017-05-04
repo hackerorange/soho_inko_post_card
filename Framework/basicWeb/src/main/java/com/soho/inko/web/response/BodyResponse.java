@@ -3,7 +3,7 @@ package com.soho.inko.web.response;
 /**
  * Created by ZhongChongtao on 2017/2/13.
  */
-public class BodyResponse<T> extends AbstractResponse {
+public class BodyResponse<T> extends StandardResponse {
     private T body;
 
     public BodyResponse() {
@@ -26,9 +26,10 @@ public class BodyResponse<T> extends AbstractResponse {
         return body;
     }
 
-    public void setBody(T body) {
+    public BodyResponse<T> setBody(T body) {
         this.body = body;
-
+        return this;
     }
+
 }
 

@@ -1,7 +1,7 @@
 <!--<html xmlns:th="http://www.thymeleaf.org">-->
 <html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
-    <base th:href="${#httpServletRequest.getScheme()+'://'+#httpServletRequest.getServerName()+':'+#httpServletRequest.getServerPort()+#httpServletRequest.getContextPath()}+'/background'"/>
+    <base th:href="${#httpServletRequest.getScheme()+'://'+#httpServletRequest.getServerName()+':'+#httpServletRequest.getServerPort()+#httpServletRequest.getContextPath()}+'/'"/>
 </head>
 <!--
 =============================================================================
@@ -38,15 +38,15 @@
                     <li th:class="${choose=='裁切明信片'?'this':''}">
                         <a th:href="@{background/postcard/tailor}">裁切明信片</a>
                     </li>
-                    <li th:class="${choose=='查看明信片'?'this':''}">
-                        <a th:href="@{background/postcard/view}">查看明信片</a>
-                    </li>
-                    <li th:class="${choose=='打印明信片'?'this':''}">
-                        <a th:href="@{background/postcard/print}">打印明信片</a>
-                    </li>
-                    <li th:class="${choose=='上传明信片'?'this':''}">
-                        <a th:href="@{background/postcard/print}">上传明信片</a>
-                    </li>
+                    <!--<li th:class="${choose=='查看明信片'?'this':''}">-->
+                    <!--<a th:href="@{background/postcard/view}">查看明信片</a>-->
+                    <!--</li>-->
+                    <!--<li th:class="${choose=='打印明信片'?'this':''}">-->
+                    <!--<a th:href="@{background/postcard/print}">打印明信片</a>-->
+                    <!--</li>-->
+                    <!--<li th:class="${choose=='上传明信片'?'this':''}">-->
+                    <!--<a th:href="@{background/postcard/print}">上传明信片</a>-->
+                    <!--</li>-->
                 </ul>
             </li>
             <li class="forms">
@@ -58,10 +58,10 @@
                 </a>
                 <ul class="sub" style="display: block">
                     <li th:class="${choose=='明信片尺寸'?'this':''}">
-                        <a th:href="@{background/settings/postcardSize}">明信片尺寸</a>
+                        <a th:href="@{background/settings/postcardSize}">尺寸列表</a>
                     </li>
-                    <li th:class="${choose=='明信片板式'?'this':''}">
-                        <a th:href="@{background/settings/postcardSize}">明信片板式</a>
+                    <li th:class="${choose=='明信片反面'?'this':''}">
+                        <a th:href="@{background/settings/cardBack}">反面列表</a>
                     </li>
                 </ul>
             </li>
@@ -74,7 +74,7 @@
                 </a>
                 <ul class="sub" style="display: block">
                     <li th:class="${choose=='订单列表'?'this':''}">
-                        <a th:href="@{background/order/all}">订单列表</a>
+                        <a th:href="@{background/order}">订单列表</a>
                     </li>
                     <li th:class="${choose=='订单明细'?'this':''}">
                         <a href="javascript:void(0);">订单明细</a>

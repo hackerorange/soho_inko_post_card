@@ -206,17 +206,17 @@ $(function () {
 
 
     //===== File uploader =====//
-
-    $("#uploader").pluploadQueue({
-        runtimes: 'html5,html4',
-        url: 'php/upload.php',
-        max_file_size: '1mb',
-        unique_names: true,
-        filters: [
-            {title: "Image files", extensions: "jpg,gif,png"}
-            //{title : "Zip files", extensions : "zip"}
-        ]
-    });
+    //
+    // $("#uploader").pluploadQueue({
+    //     runtimes: 'html5,html4',
+    //     url: 'php/upload.php',
+    //     max_file_size: '1mb',
+    //     unique_names: true,
+    //     filters: [
+    //         {title: "Image files", extensions: "jpg,gif,png"}
+    //         //{title : "Zip files", extensions : "zip"}
+    //     ]
+    // });
 
 
     //===== Tags =====//
@@ -652,10 +652,10 @@ $(function () {
 
     //===== Sparklines =====//
 
-    $('.negBar').sparkline('html', {type: 'bar', barColor: '#db6464'});
-    $('.posBar').sparkline('html', {type: 'bar', barColor: '#6daa24'});
-    $('.zeroBar').sparkline('html', {type: 'bar', barColor: '#4e8fc6'});
-
+    // $('.negBar').sparkline('html', {type: 'bar', barColor: '#db6464'});
+    // $('.posBar').sparkline('html', {type: 'bar', barColor: '#6daa24'});
+    // $('.zeroBar').sparkline('html', {type: 'bar', barColor: '#4e8fc6'});
+    //
 
     //===== Tooltips =====//
 

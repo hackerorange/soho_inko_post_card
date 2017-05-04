@@ -1,5 +1,6 @@
 package com.soho.inko.database.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.soho.inko.database.constant.OrderStatusEnum;
 import org.hibernate.annotations.GenericGenerator;
@@ -17,6 +18,7 @@ public class OrderEntity {
     private String customerAccountId;
     private String customerTaobaoId;
     private String createAccountId;
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Timestamp createDate;
     private OrderStatusEnum orderStatus;
 

@@ -1,8 +1,8 @@
 package com.soho.inko.service.impl;
 
 import com.soho.inko.configuration.properties.FileProperties;
-import com.soho.inko.entity.FileEntity;
-import com.soho.inko.repository.FileRepository;
+import com.soho.inko.database.entity.FileEntity;
+import com.soho.inko.database.repository.FileRepository;
 import com.soho.inko.service.FileService;
 import com.soho.inko.utils.PictureUtils;
 import com.soho.inko.utils.TypeChecker;
@@ -37,7 +37,7 @@ public class ImageFileServiceImpl implements FileService {
     }
 
     @Override
-    public FileEntity uploadFile(MultipartFile file, String category) throws IOException {
+    public FileEntity uploadFile(MultipartFile file, String category, String type) throws IOException {
         String md5 = DigestUtils.md5Hex(file.getBytes());
         FileEntity one = fileRepository.findOne(md5);
         if (one != null) {
@@ -64,29 +64,22 @@ public class ImageFileServiceImpl implements FileService {
         filePath = filePath.replace("#MONTH", calendar.get(Calendar.MONTH) + 1 + "");
         filePath = filePath.replace("#DAY", calendar.get(Calendar.DAY_OF_MONTH) + "");
         // 正式文件的地址
-        filePath = filePath.replace("#FILE_NAME",
-                md5 + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")));
+        filePath = filePath.replace("#FILE_NAME", md5 + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")));
         logger.info("文件要保存的路径为:" + filePath);
-        // logger.info("文件缩略图的路径为:" + thumbnailPath);
-        // File targetFile = new File(filePath);
-        // if (!targetFile.getParentFile().exists()) {
-        // logger.info("目录不存在，正在创建目录");
-        // // noinspection ResultOfMethodCallIgnored
-        // targetFile.getParentFile().mkdirs();
-        // }
-        // file.transferTo(new File(filePath));
-        // try {
-        // PictureUtils.zoomPicture(filePath, thumbnailPath, 200, 200);
-        // } catch (InterruptedException | IM4JavaException e) {
-        // logger.error("生成缩略图发生错误", e);
-        // }
-        // String thumbnailFilePath =
-        // ImageThumbnailUtils.thumbnailImage(filePath, 200, 200);
+        logger.info("文件缩略图的路径为:" + thumbnailPath);
+        File targetFile = new File(filePath);
+        if (!targetFile.getParentFile().exists()) {
+            logger.info("目录不存在，正在创建目录");
+            // noinspection ResultOfMethodCallIgnored
+            targetFile.getParentFile().mkdirs();
+        }
+        file.transferTo(new File(filePath));
         FileEntity fileEntity = new FileEntity();
         fileEntity.setPath(filePath);
         fileEntity.setId(md5);
         fileEntity.setTitle(file.getOriginalFilename());
         fileEntity.setCategory(category);
+        fileEntity.setFileType(type);
         fileRepository.save(fileEntity);
         return fileEntity;
     }
@@ -116,9 +109,16 @@ public class ImageFileServiceImpl implements FileService {
         if (tmpPictureFile.exists()) {
             return tmpPictureFile;
         }
+        String originalFilePath = fileEntity.getPath();
         try {
+            if (originalFilePath.toUpperCase().endsWith(".PDF")) {
+                String pdfPicturePath = originalFilePath.substring(0, originalFilePath.length() - 4) + ".png";
+                logger.info("文件是PDF类型，正在启动PDFBox转图像引擎[FileType]" + fileEntity.getFileType());
+                PictureUtils.convertSinglePagePdfToPicture(originalFilePath, pdfPicturePath);
+                originalFilePath = pdfPicturePath;
+            }
             // 生成图片
-            PictureUtils.zoomPicture(fileEntity.getPath(), filePath, 300, 300, rotation);
+            PictureUtils.zoomPicture(originalFilePath, filePath, 300, 300, rotation);
             if (!tmpPictureFile.exists()) {
                 logger.info("执行完毕,但是没有找到图片");
                 return null;

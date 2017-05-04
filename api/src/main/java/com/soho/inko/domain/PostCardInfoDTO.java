@@ -4,7 +4,6 @@ package com.soho.inko.domain;
 import com.soho.inko.database.entity.FormatTypeEntity;
 import com.soho.inko.image.Point;
 import com.soho.inko.image.Size;
-import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * Created by ZhongChongtao on 2017/3/23.
@@ -12,7 +11,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class PostCardInfoDTO {
     //明信片ID
 
-//    @Length(min = 5, max = 20, message = "{user.name.length.illegal}")
+    //    @Length(min = 5, max = 20, message = "{user.name.length.illegal}")
     private String postCardId;
     //明信片文件ID
     private String postCardFileId;
