@@ -105,7 +105,23 @@ $.fn.PostCard = function () {
         // console.log("鼠标进入画板区");
         positionDelta.deltaX = e.pageX - pictureBox.location.x;//修改相对坐标X
         positionDelta.deltaY = e.pageY - pictureBox.location.y;//修改相对坐标Y
-    }).on("mousemove", mouseMove);//绑定移动效果;
+            //取消滚动
+            $(document.body).css({
+                "overflow-x": "hidden",
+                "overflow-y": "hidden"
+            });
+
+
+        })
+        .on("mousemove", mouseMove)//绑定移动效果;
+        .on('mouseleave', function () {
+            console.log("鼠标移开");
+            //启用滚动条
+            $(document.body).css({
+                "overflow-x": "auto",
+                "overflow-y": "auto"
+            });
+        });
     $cropBox.hide();//隐藏裁切框
     $cropWhiteEdge.hide();//隐藏背景框
     $cropCoverArea.hide();//隐藏裁切区域

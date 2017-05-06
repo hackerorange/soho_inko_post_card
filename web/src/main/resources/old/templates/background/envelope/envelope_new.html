@@ -1,0 +1,351 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--suppress HtmlPresentationalElement, JSUnresolvedVariable -->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <base th:href="${#httpServletRequest.getScheme()+'://'+#httpServletRequest.getServerName()+':'+#httpServletRequest.getServerPort()+#httpServletRequest.getContextPath()}+'/'"/>
+    <title>创建新的明信片集合</title>
+    <link th:href="@{css/main.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{css/webUploader.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{css/soho.css}" rel="stylesheet" type="text/css"/>
+
+    <style type="text/css">
+        .envelopeDetailActive {
+            background: none repeat scroll 0 0 #a9edf9;
+
+        }
+
+        #envelopeDetails tr:hover {
+            background: none repeat scroll 0 0 #a9edf9;
+            cursor: pointer;
+        }
+
+        .postCardPreview {
+            max-width: 100%;
+            text-align: center;
+            max-height: 200px;
+            margin: 0 auto;
+        }
+    </style>
+    <script type="text/javascript" src="" th:src="@{js/jquery.min.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/spinner/ui.spinner.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/spinner/jquery.mousewheel.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/jquery-ui.min.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/forms/uniform.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/forms/jquery.cleditor.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/forms/jquery.validationEngine-en.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/forms/jquery.validationEngine.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/forms/jquery.tagsinput.min.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/forms/autogrowtextarea.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/forms/jquery.maskedinput.min.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/forms/jquery.dualListBox.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/forms/jquery.inputlimiter.min.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/forms/chosen.jquery.min.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/wizard/jquery.form.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/wizard/jquery.validate.min.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/wizard/jquery.form.wizard.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/tables/datatable.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/tables/tablesort.min.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/tables/resizable.min.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/ui/jquery.tipsy.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/ui/jquery.collapsible.min.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/ui/jquery.prettyPhoto.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/ui/jquery.progress.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/ui/jquery.timeentry.min.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/ui/jquery.colorpicker.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/ui/jquery.jgrowl.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/ui/jquery.breadcrumbs.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/ui/jquery.sourcerer.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/calendar.min.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/elfinder.min.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/plugins/webUploader/webuploader.html5only.js}"></script>
+    <script type="text/javascript" src="" th:src="@{js/custom.js}"></script>
+
+
+    <!--<script type="text/javascript" src="" th:src="@{js/charts/chart.js}"></script>-->
+    <script type="text/javascript" th:inline="JavaScript">
+        var tokenId = [[${tokenId}]];
+        var orderId = [[${orderId}]];
+        var apiBasePath = [[${apiBasePath}]];
+        var fileBasePath = [[${fileBasePath}]];
+        var counter = 0;
+        var currentPostCardLine;
+        //        <![CDATA[
+        $(function () {
+            //启动的时候刷新数据
+            loadPostCardDetail();
+            //===== 绑定弹窗 =====//
+            //刷新数据
+            var uploader = WebUploader.create({
+                // 文件接收服务端。
+                server: fileBasePath + '/upload',
+                // 选择文件的按钮。可选。
+                // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+                pick: {
+                    id: '#uploadPicker',
+                    innerHTML: '添加明信片'
+                },
+                auto: true,
+                formData: {
+                    category: '明信片图片'
+                },
+                // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+                resize: false
+            });
+            uploader.on('uploadAccept', function (file, response) {
+                $('#formFileId').attr('value', response.body.id);
+                console.log(file.file.name);
+                var data = {};
+                data.fileId = response.body.id;
+            });
+
+
+            $('#postCardListDetailRefreshButton').on('click', loadPostCardDetail);
+            //          ajax请求后台数据库所有尺寸信息
+            function loadPostCardDetail() {
+                console.log("==============================");
+                //ajax获取当前Envelope中的信息，包括Envelope信息和postCard信息
+                $.ajax({
+                    url: apiBasePath + '/order/' + orderId + '/' + envelopeId,
+                    type: 'get',
+                    success: function (result) {
+                        console.log(result);
+                        switch (result.code) {
+                            case 92:
+                                window.location.reload();
+                                break;
+                            case 200:
+
+                                var postCardList = result.body.postCardEntityList;
+//                                console.log(result.body);
+                                var $envelopeDetails = $('#postCardDetail');
+                                $envelopeDetails.html("");
+                                var counter = 0;
+                                $(postCardList).each(function (index, data) {
+                                    console.log(data);
+                                    if (counter % 4 == 0) {
+                                        //换一行
+                                        currentPostCardLine = $('<div class="widgets">');
+                                        $envelopeDetails.append(currentPostCardLine);
+                                    }
+                                    counter++;
+                                    var currentBody =
+                                        $('<div class="body">')
+                                            .append($('<div>')
+                                                .attr('align', 'center')
+                                                .css({height: '300px'})
+                                                .append($('<img>')
+                                                    .attr('src', fileBasePath + '/' + data.fileId)
+                                                    .addClass('postCardPreview')
+                                                ));
+                                    console.log("成品文件ID" + data.productFileId);
+                                    if (data.productFileId != undefined) {
+                                        currentBody.append($('<a>')
+                                            .attr('href', fileBasePath + '/' + data.productFileId + '?isOriginal=true')
+                                            .attr('target', '_blank')
+                                            .html('下载文件')
+                                        )
+                                    } else {
+                                        currentBody.append($('<a>')
+                                            .attr('href', 'background/postcard/tailor')
+                                            .html('还没裁切，跳转到裁切页面')
+                                        )
+                                    }
+                                    currentPostCardLine
+                                        .append($('<div class="oneFour">')
+                                            .append($('<div class="widget">')
+                                                .append($('<div class="title"></div>')
+                                                    .append($('<h6>')
+                                                        .html(data.fileName))
+                                                    .append($('<div class="topIcons">')
+                                                        .append($('<a href="javascript:void(0)" original-title="删除此明信片"><img src="images/icons/dark/close.png" alt=""></a>')
+                                                            .on('click', function () {
+                                                                console.log(data.id);
+                                                                $.ajax({
+                                                                    url: apiBasePath + '/order/' + orderId + '/' + envelopeId + '/' + data.id,
+                                                                    type: 'delete',
+                                                                    success: function (response) {
+                                                                        console.log(response);
+                                                                        loadPostCardDetail();
+                                                                    }
+                                                                })
+                                                            })
+                                                        )
+                                                    ))
+                                                .append(currentBody)
+                                            ));
+
+
+//                                    $envelopeDetails.append(
+//                                        $('<tr>')
+//                                            .append($('<td>').html(data.id))
+//                                            .append($('<td>').html(data.rotation))
+//                                            .append($('<td>').html(data.rotation))
+//                                            .append($('<td>').html(data.rotation))
+//                                            .append($('<td>')
+//                                                    .append($('<a href="javascript:void(0)" class="tipS" original-title="delete">')
+//                                                            .append('<img src="images/icons/remove.png" alt=""/>')
+//                                                            .attr('postCardId', data.id)
+//                                                            .on('click', function (data) {
+////                                                        console.log();
+//                                                                var postCardToBeRemove = $(data.currentTarget).attr("postCardId");
+//                                                                //询问是否真的删除此尺寸，如果点击是，执行ajax删除操作
+//                                                                if (confirm('确认删除此明信片集合?')) {
+//                                                                    $.ajax({
+//                                                                            type: 'delete',
+//                                                                            headers: {
+//                                                                                tokenId: tokenId
+//                                                                            },
+//                                                                            url: apiBasePath + '/postCard/' + postCardToBeRemove,
+//                                                                            success: function (result) {
+//                                                                                switch (result.code) {
+//                                                                                    case 200:
+//                                                                                        loadPostCardDetail();
+//                                                                                        break;
+//                                                                                    default:
+//                                                                                        break;
+//                                                                                }
+//                                                                            }
+//                                                                        }
+//                                                                    )
+//                                                                }
+//                                                            })
+//                                                    )
+//                                            )
+//                                    );
+                                });
+
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                });
+            }
+        });
+        //        ]]>
+    </script>
+</head>
+<body>
+<!--包含左侧边框-->
+<div th:include="background/common/common::navigation_left(${'订单资料'},${'订单明细'})"></div>
+<div id="rightSide">
+    <!-- Top fixed navigation -->
+    <div th:include="background/common/common::navigation_top"></div>
+    <div class="statsRow">
+        <div class="wrapper">
+            <div class="controlB">
+                <ul>
+                    <li id="uploadPicker"></li>
+                    <li>
+                        <div id="postCardListDetailRefreshButton" class="refreshButton">刷新明信片列表</div>
+                    </li>
+                </ul>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+    <div class="line"></div>
+    <!--
+    =======
+    我的布局
+    =======
+    -->
+
+
+    <div class="wrapper" id="postCardDetail">
+
+        <div class="widgets">
+            <div class="widgets">
+                <div class="oneFour">
+                    <div class="widget">
+                        <div class="title"><h6>明信片</h6></div>
+                        <p>Ut sed ligula a orci eleifend semper et vel urna. Sed semper tortor urna. Proin faucibus nunc nibh, et porta metus</p>
+                    </div>
+                </div>
+                <div class="oneFour">
+                    <div class="widget">
+                        <div class="title"><h6>Quarter width</h6></div>
+                        <p>Ut sed ligula a orci eleifend semper et vel urna. Sed semper tortor urna. Proin faucibus nunc nibh, et porta metus</p>
+                    </div>
+                </div>
+                <div class="oneFour">
+                    <div class="widget">
+                        <div class="title"><h6>Quarter width</h6></div>
+                        <p>Ut sed ligula a orci eleifend semper et vel urna. Sed semper tortor urna. Proin faucibus nunc nibh, et porta metus</p>
+                    </div>
+                </div>
+                <div class="oneFour">
+                    <div class="widget">
+                        <div class="title"><h6>Quarter width</h6></div>
+                        <p>Ut sed ligula a orci eleifend semper et vel urna. Sed semper tortor urna. Proin faucibus nunc nibh, et porta metus</p>
+                    </div>
+                </div>
+            </div>
+            <div class="widgets">
+                <div class="oneFour">
+                    <div class="widget">
+                        <div class="title"><h6>Quarter width</h6></div>
+                        <p>Ut sed ligula a orci eleifend semper et vel urna. Sed semper tortor urna. Proin faucibus nunc nibh, et porta metus</p>
+                    </div>
+                </div>
+                <div class="oneFour">
+                    <div class="widget">
+                        <div class="title"><h6>Quarter width</h6></div>
+                        <p>Ut sed ligula a orci eleifend semper et vel urna. Sed semper tortor urna. Proin faucibus nunc nibh, et porta metus</p>
+                    </div>
+                </div>
+                <div class="oneFour">
+                    <div class="widget">
+                        <div class="title"><h6>Quarter width</h6></div>
+                        <p>Ut sed ligula a orci eleifend semper et vel urna. Sed semper tortor urna. Proin faucibus nunc nibh, et porta metus</p>
+                    </div>
+                </div>
+                <div class="oneFour">
+                    <div class="widget">
+                        <div class="title"><h6>Quarter width</h6></div>
+                        <p>Ut sed ligula a orci eleifend semper et vel urna. Sed semper tortor urna. Proin faucibus nunc nibh, et porta metus</p>
+                    </div>
+                </div>
+            </div>
+            <!--<div class="widget">-->
+            <!--<div class="title"><img src="" th:src="@{images/icons/dark/add.png}" alt="" class="titleIcon"/><h6>明信片集合</h6>-->
+            <!--<div class="topIcons">-->
+            <!--&lt;!&ndash;<a id="" href="javascript:void(0);" class="tipS" original-title="Print invoice"><img src="" th:src="@{images/icons/printTop.png}" alt=""/></a>&ndash;&gt;-->
+            <!--<a id="addNewPostCard" href="javascript:void(0);" class="tipS" original-title="添加新的集合"><img src="" th:src="@{images/icons/editTop.png}" alt=""/></a>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--<div class="body">-->
+            <!--<div class="widget">-->
+            <!--<div class="title">-->
+            <!--<img src="" th:src="@{images/icons/dark/add.png}" alt="" class="titleIcon"/><h6>明信片集合信息</h6>-->
+            <!--</div>-->
+            <!---->
+            <!--&lt;!&ndash;<table cellpadding="0" cellspacing="0" width="100%" class="sTable">&ndash;&gt;-->
+            <!--&lt;!&ndash;<thead>&ndash;&gt;-->
+            <!--&lt;!&ndash;<tr>&ndash;&gt;-->
+            <!--&lt;!&ndash;<td width="80">文件名称</td>&ndash;&gt;-->
+            <!--&lt;!&ndash;<td width="80">份数</td>&ndash;&gt;-->
+            <!--&lt;!&ndash;<td width="80">正面版式ID</td>&ndash;&gt;-->
+            <!--&lt;!&ndash;<td width="80">反面版式ID</td>&ndash;&gt;-->
+            <!--&lt;!&ndash;<td width="40">删除</td>&ndash;&gt;-->
+            <!--&lt;!&ndash;</tr>&ndash;&gt;-->
+            <!--&lt;!&ndash;</thead>&ndash;&gt;-->
+            <!--&lt;!&ndash;<tbody id="postCardDetail">&ndash;&gt;-->
+            <!--&lt;!&ndash;<tr>&ndash;&gt;-->
+            <!--&lt;!&ndash;</tr>&ndash;&gt;-->
+            <!--&lt;!&ndash;</tbody>&ndash;&gt;-->
+            <!--&lt;!&ndash;</table>&ndash;&gt;-->
+            <!--</div>-->
+
+            <!--</div>-->
+            <!--</div>-->
+        </div>
+    </div>
+    <!-- Footer line -->
+    <div th:include="background/common/common::footer"></div>
+</div>
+<div class="clear"></div>
+</body>
+</html>
