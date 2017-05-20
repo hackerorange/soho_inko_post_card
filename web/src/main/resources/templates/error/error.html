@@ -2,10 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0;"/>
     <base th:href="${#httpServletRequest.getScheme()+'://'+#httpServletRequest.getServerName()+':'+#httpServletRequest.getServerPort()+#httpServletRequest.getContextPath()+'/'}"/>
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
     <title>Crown - premium responsive admin template for backend systems</title>
-    <link th:href="@{css/main.css}" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="css/main.css"/>
 
     <script type="text/javascript" th:src="@{js/jquery.min.js}"></script>
 
@@ -13,7 +13,6 @@
     <script type="text/javascript" th:src="@{js/plugins/spinner/jquery.mousewheel.js}"></script>
 
     <script type="text/javascript" th:src="@{js/jquery-ui.min.js}"></script>
-
 
     <script type="text/javascript" th:src="@{js/plugins/forms/uniform.js}"></script>
     <script type="text/javascript" th:src="@{js/plugins/forms/jquery.cleditor.js}"></script>
@@ -29,6 +28,7 @@
     <script type="text/javascript" th:src="@{js/plugins/wizard/jquery.form.js}"></script>
     <script type="text/javascript" th:src="@{js/plugins/wizard/jquery.validate.min.js}"></script>
     <script type="text/javascript" th:src="@{js/plugins/wizard/jquery.form.wizard.js}"></script>
+
 
     <script type="text/javascript" th:src="@{js/plugins/tables/datatable.js}"></script>
     <script type="text/javascript" th:src="@{js/plugins/tables/tablesort.min.js}"></script>
@@ -57,43 +57,43 @@
 <div class="topNav">
     <div class="wrapper">
         <div class="welcome">
-            <a href="#" title="">
-                <img src="" th:src="@{images/userPic.png}" alt=""/>
+            <a href="#" title="" shape="rect">
+                <img th:src="@{images/userPic.png}" alt=""/>
             </a>
             <span>Howdy, Eugene!</span>
         </div>
         <div class="userNav">
             <ul>
                 <li>
-                    <a href="#" title="">
-                        <img src="" th:src="@{images/icons/topnav/profile.png}" alt=""/>
+                    <a href="#" title="" shape="rect">
+                        <img th:src="@{images/icons/topnav/profile.png}" alt=""/>
                         <span>Profile</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" title="">
-                        <img src="" th:src="@{images/icons/topnav/tasks.png}" alt=""/><span>Tasks</span>
+                    <a href="#" title="" shape="rect">
+                        <img th:src="@{images/icons/topnav/tasks.png}" alt=""/><span>Tasks</span>
                     </a>
                 </li>
-                <li class="dd"><a title="">
-                    <img src="" th:src="@{images/icons/topnav/messages.png}" alt=""/>
+                <li class="dd"><a title="" shape="rect">
+                    <img th:src="@{images/icons/topnav/messages.png}" alt=""/>
                     <span>Messages</span>
                     <span class="numberTop">8</span></a>
                     <ul class="userDropdown">
-                        <li><a href="#" title="" class="sAdd">new message</a></li>
-                        <li><a href="#" title="" class="sInbox">inbox</a></li>
-                        <li><a href="#" title="" class="sOutbox">outbox</a></li>
-                        <li><a href="#" title="" class="sTrash">trash</a></li>
+                        <li><a href="#" title="" class="sAdd" shape="rect">new message</a></li>
+                        <li><a href="#" title="" class="sInbox" shape="rect">inbox</a></li>
+                        <li><a href="#" title="" class="sOutbox" shape="rect">outbox</a></li>
+                        <li><a href="#" title="" class="sTrash" shape="rect">trash</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a href="#" title=""><img src="" th:src="@{images/icons/topnav/settings.png}" alt=""/>
+                    <a href="#" title="" shape="rect"><img th:src="@{images/icons/topnav/settings.png}" alt=""/>
                         <span>Settings</span>
                     </a>
                 </li>
                 <li>
-                    <a th:href="@{logout}" title="">
-                        <img src="" th:src="@{images/icons/topnav/logout.png}" alt=""/>
+                    <a title="" shape="rect" href="logout">
+                        <img th:src="@{images/icons/topnav/logout.png}" alt=""/>
                         <span>Logout</span>
                     </a>
                 </li>
@@ -106,13 +106,13 @@
 <!-- Main content wrapper -->
 <div class="errorWrapper">
     <span class="sadEmo"></span>
-    <!--/*@thymesVar id="error" type="java.lang.String"*/-->
-    <span class="errorTitle" th:text="${error}">Ahh, something went wrong here :(</span>
-    <!--/*@thymesVar id="status" type="java.lang.Integer"*/-->
-    <span class="errorNum" th:text="${status}">404</span>
-    <!--/*@thymesVar id="message" type="java.lang.String"*/-->
-    <span class="errorDesc" th:text="${message}">Oops! Sorry, an error has occured. Access forbidden!</span>
-    <a th:href="@{index}" title="" class="button dredB">
+
+    <span class="errorTitle">Not Found</span>
+
+    <span class="errorNum">404</span>
+
+    <span class="errorDesc">此页面不存在</span>
+    <a title="" class="button dredB" shape="rect" href="index">
         <span>返回首页</span>
     </a>
 </div>

@@ -2,12 +2,10 @@ package com.soho.inko.service.impl;
 
 import com.soho.inko.database.constant.OrderStatusEnum;
 import com.soho.inko.database.entity.OrderEntity;
-import com.soho.inko.database.entity.UserEntity;
 import com.soho.inko.database.repository.OrderRepository;
 import com.soho.inko.database.repository.UserRepository;
 import com.soho.inko.service.IEnvelopeService;
 import com.soho.inko.service.IOrderService;
-import com.soho.inko.utils.TypeChecker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by ZhongChongtao on 2017/4/16.
@@ -38,19 +35,8 @@ public class OrderServiceImpl implements IOrderService {
 
     @Override
     public OrderEntity createOrder(String taobaoId, String tokenId) {
-        //查询用户信息
-        UserEntity userEntity = userRepository.findByTaoBaoId(taobaoId);
-        //如果没有查询到用户信息
-        if (TypeChecker.isNull(userEntity)) {
-            userEntity = new UserEntity();
-            userEntity.setTaoBaoId(taobaoId);
-            userEntity.setUserName(taobaoId);
-            userEntity.setSalt(UUID.randomUUID().toString());
-            userEntity = userRepository.save(userEntity);
-        }
         OrderEntity orderEntity = new OrderEntity();
-        orderEntity.setCustomerAccountId(userEntity.getId());
-        orderEntity.setCustomerTaobaoId(userEntity.getTaoBaoId());
+        orderEntity.setCustomerTaobaoId(taobaoId);
         orderEntity.setCreateAccountId(tokenId);
         orderRepository.save(orderEntity);
         return orderEntity;

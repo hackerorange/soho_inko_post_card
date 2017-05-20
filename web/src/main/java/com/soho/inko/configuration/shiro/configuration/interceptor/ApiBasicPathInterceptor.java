@@ -28,7 +28,7 @@ public class ApiBasicPathInterceptor extends HandlerInterceptorAdapter {
         }
         request.setAttribute("apiBasePath", webProperties.getApiBasePath());
         request.setAttribute("fileBasePath", webProperties.getFileBasePath());
-        logger.info("apiBasePath为" + webProperties.getApiBasePath());
+//        logger.info("apiBasePath为" + webProperties.getApiBasePath());
         super.postHandle(request, response, handler, modelAndView);
     }
 }

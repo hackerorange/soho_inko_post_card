@@ -35,7 +35,7 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
         SimpleMappingExceptionResolver simpleMappingExceptionResolver = new SimpleMappingExceptionResolver();
         Properties exceptionMappings = new Properties();
         simpleMappingExceptionResolver.setExceptionMappings(exceptionMappings);
-        exceptionMappings.put("org.apache.shiro.authz.AuthorizationException", "/error");
+        exceptionMappings.put("org.apache.shiro.authz.AuthorizationException", "/error/403");
         return simpleMappingExceptionResolver;
     }
 

@@ -2,121 +2,52 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <base th:href="${#httpServletRequest.getScheme()+'://'+#httpServletRequest.getServerName()+':'+#httpServletRequest.getServerPort()+#httpServletRequest.getContextPath()+'/'}"/>
-    <title>Crown - premium responsive admin template for backend systems</title>
-    <link th:href="@{css/main.css}" rel="stylesheet" type="text/css"/>
+    <title>404错误提示页面</title>
+    <link rel="stylesheet" th:href="@{css/style.default.css}" type="text/css"/>
+    <script type="text/javascript" th:src="@{js/plugins/jquery-1.7.min.js}"></script>
+    <script type="text/javascript" th:src="@{js/plugins/jquery-ui-1.8.16.custom.min.js}"></script>
+    <script type="text/javascript" th:src="@{js/plugins/jquery.cookie.js}"></script>
+    <script type="text/javascript" th:src="@{js/custom/general.js}"></script>
+</head>
 
-    <script type="text/javascript" th:src="@{js/jquery.min.js}"></script>
-
-    <script type="text/javascript" th:src="@{js/plugins/spinner/ui.spinner.js}"></script>
-    <script type="text/javascript" th:src="@{js/plugins/spinner/jquery.mousewheel.js}"></script>
-
-    <script type="text/javascript" th:src="@{js/jquery-ui.min.js}"></script>
-
-
-    <script type="text/javascript" th:src="@{js/plugins/forms/uniform.js}"></script>
-    <script type="text/javascript" th:src="@{js/plugins/forms/jquery.cleditor.js}"></script>
-    <script type="text/javascript" th:src="@{js/plugins/forms/jquery.validationEngine-en.js}"></script>
-    <script type="text/javascript" th:src="@{js/plugins/forms/jquery.validationEngine.js}"></script>
-    <script type="text/javascript" th:src="@{js/plugins/forms/jquery.tagsinput.min.js}"></script>
-    <script type="text/javascript" th:src="@{js/plugins/forms/autogrowtextarea.js}"></script>
-    <script type="text/javascript" th:src="@{js/plugins/forms/jquery.maskedinput.min.js}"></script>
-    <script type="text/javascript" th:src="@{js/plugins/forms/jquery.dualListBox.js}"></script>
-    <script type="text/javascript" th:src="@{js/plugins/forms/jquery.inputlimiter.min.js}"></script>
-    <script type="text/javascript" th:src="@{js/plugins/forms/chosen.jquery.min.js}"></script>
-
-    <script type="text/javascript" th:src="@{js/plugins/wizard/jquery.form.js}"></script>
-    <script type="text/javascript" th:src="@{js/plugins/wizard/jquery.validate.min.js}"></script>
-    <script type="text/javascript" th:src="@{js/plugins/wizard/jquery.form.wizard.js}"></script>
+<body>
+<div class="bodywrapper">
+    <!--
+       =================================================================================
+       =   从公共模板中获取顶部信息，参数：1：是否为错误页面，错误页面下面会有一条红线           =
+       =================================================================================
+       -->
+    <div th:include="background/common/common::navigation_top(${'true'})"></div>
 
 
-    <script type="text/javascript" th:src="@{js/plugins/tables/datatable.js}"></script>
-    <script type="text/javascript" th:src="@{js/plugins/tables/tablesort.min.js}"></script>
-    <script type="text/javascript" th:src="@{js/plugins/tables/resizable.min.js}"></script>
+    <div class="contentwrapper padding10">
+        <div class="errorwrapper error404">
+            <div class="errorcontent">
+                <!--/*@thymesVar id="message" type="java.lang.String"*/-->
+                <!--/*@thymesVar id="error" type="java.lang.String"*/-->
 
-    <script type="text/javascript" th:src="@{js/plugins/ui/jquery.tipsy.js}"></script>
-    <script type="text/javascript" th:src="@{js/plugins/ui/jquery.collapsible.min.js}"></script>
-    <script type="text/javascript" th:src="@{js/plugins/ui/jquery.prettyPhoto.js}"></script>
-    <script type="text/javascript" th:src="@{js/plugins/ui/jquery.progress.js}"></script>
-    <script type="text/javascript" th:src="@{js/plugins/ui/jquery.timeentry.min.js}"></script>
-    <script type="text/javascript" th:src="@{js/plugins/ui/jquery.colorpicker.js}"></script>
-    <script type="text/javascript" th:src="@{js/plugins/ui/jquery.jgrowl.js}"></script>
-    <script type="text/javascript" th:src="@{js/plugins/ui/jquery.breadcrumbs.js}"></script>
-    <script type="text/javascript" th:src="@{js/plugins/ui/jquery.sourcerer.js}"></script>
+                <!--/*@thymesVar id="status" type="java.lang.Integer"*/-->
+                <h1><span th:text="${status}"></span><span>服务器发生异常</span></h1>
+                <h3>系统正在维护中</h3>
 
-    <script type="text/javascript" th:src="@{js/plugins/calendar.min.js}"></script>
-    <script type="text/javascript" th:src="@{js/plugins/elfinder.min.js}"></script>
+                <p><span th:text="${message}"></span></p>
 
-    <script type="text/javascript" th:src="@{js/custom.js}"></script>
-
-    <!-- Shared on MafiaShare.net  --><!-- Shared on MafiaShare.net  --></head>
-
-<body class="nobg errorPage">
-<!-- Top fixed navigation -->
-<div class="topNav">
-    <div class="wrapper">
-        <div class="welcome">
-            <a href="#" title="">
-                <img src="" th:src="@{images/userPic.png}" alt=""/>
-            </a>
-            <span>Howdy, Eugene!</span>
-        </div>
-        <div class="userNav">
-            <ul>
-                <li>
-                    <a href="#" title="">
-                        <img src="" th:src="@{images/icons/topnav/profile.png}" alt=""/>
-                        <span>Profile</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" title="">
-                        <img src="" th:src="@{images/icons/topnav/tasks.png}" alt=""/><span>Tasks</span>
-                    </a>
-                </li>
-                <li class="dd"><a title="">
-                    <img src="" th:src="@{images/icons/topnav/messages.png}" alt=""/>
-                    <span>Messages</span>
-                    <span class="numberTop">8</span></a>
-                    <ul class="userDropdown">
-                        <li><a href="#" title="" class="sAdd">new message</a></li>
-                        <li><a href="#" title="" class="sInbox">inbox</a></li>
-                        <li><a href="#" title="" class="sOutbox">outbox</a></li>
-                        <li><a href="#" title="" class="sTrash">trash</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#" title=""><img src="" th:src="@{images/icons/topnav/settings.png}" alt=""/>
-                        <span>Settings</span>
-                    </a>
-                </li>
-                <li>
-                    <a th:href="@{logout}" title="">
-                        <img src="" th:src="@{images/icons/topnav/logout.png}" alt=""/>
-                        <span>Logout</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <div class="clear"></div>
+                <!--<p><span th:text="${status}>">系统正在维护中,您可以执行以下操作</span></p>-->
+                <ul>
+                    <li>联系运维人员</li>
+                    <li>执行其他操作</li>
+                    <li>稍等片刻后，重新操作</li>
+                </ul>
+                <br/>
+                <button class="stdbtn btn_black" onclick="history.back()">返回上一个页面</button>
+                &nbsp;
+                <button onclick="location.href='dashboard.html'" class="stdbtn btn_orange">返回主页</button>
+            </div><!--errorcontent-->
+        </div><!--errorwrapper-->
     </div>
-</div>
-
-<!-- Main content wrapper -->
-<div class="errorWrapper">
-    <span class="sadEmo"></span>
-    <!--/*@thymesVar id="error" type="java.lang.String"*/-->
-    <span class="errorTitle" th:text="${error}">Ahh, something went wrong here :(</span>
-    <!--/*@thymesVar id="status" type="java.lang.Integer"*/-->
-    <span class="errorNum" th:text="${status}">404</span>
-    <!--/*@thymesVar id="message" type="java.lang.String"*/-->
-    <span class="errorDesc" th:text="${message}">Oops! Sorry, an error has occured. Access forbidden!</span>
-    <a th:href="@{index}" title="" class="button dredB">
-        <span>返回首页</span>
-    </a>
-</div>
-
+</div><!--bodywrapper-->
 
 </body>
 </html>

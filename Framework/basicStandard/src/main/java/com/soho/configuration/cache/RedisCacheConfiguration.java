@@ -1,6 +1,7 @@
 package com.soho.configuration.cache;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +17,7 @@ public class RedisCacheConfiguration {
     @Autowired
     @Bean
     @Primary
+    @ConditionalOnClass(CacheManager.class)
     public CacheManager cacheManager(RedisTemplate redisTemplate) {
         RedisCacheManager redisCacheManager = new RedisCacheManager(redisTemplate);
         // 设置缓存过期时间
@@ -27,6 +29,7 @@ public class RedisCacheConfiguration {
 
     @Autowired
     @Bean
+    @ConditionalOnClass(CacheManager.class)
     public CacheManager thirdCacheManager(RedisTemplate redisTemplate) {
         RedisCacheManager redisCacheManager = new RedisCacheManager(redisTemplate);
         // 设置缓存过期时间

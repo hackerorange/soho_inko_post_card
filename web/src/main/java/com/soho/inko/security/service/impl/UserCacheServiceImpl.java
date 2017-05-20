@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
  */
 
 @Service
-@Cacheable
 @SuppressWarnings("SpringAutowiredFieldsWarningInspection")
 public class UserCacheServiceImpl implements UserCacheService {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -28,10 +27,11 @@ public class UserCacheServiceImpl implements UserCacheService {
 
 
     @Override
+    @Cacheable(cacheNames = "user", key = "#userName")
     public UserEntity regist(String userName, String password, String taoBaoId, String email) {
         UserEntity userEntity = new UserEntity();
         userEntity.setUserName(userName);
-        userEntity.setUserName(password);
+        userEntity.setUserPassword(password);
         userEntity.setTaoBaoId(taoBaoId);
         userEntity.setEmail(email);
         passwordSupport.encryptUserEntity(userEntity);

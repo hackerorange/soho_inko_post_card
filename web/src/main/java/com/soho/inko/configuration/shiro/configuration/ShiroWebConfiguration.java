@@ -1,7 +1,10 @@
 package com.soho.inko.configuration.shiro.configuration;
 
 import com.soho.inko.configuration.shiro.configuration.properties.WebProperties;
+import org.apache.shiro.mgt.SecurityManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.MethodInvokingFactoryBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -27,5 +30,13 @@ public class ShiroWebConfiguration extends WebMvcConfigurerAdapter {
                     .setViewName(stringStringEntry.getValue());
         }
         super.addViewControllers(registry);
+    }
+
+    @Bean
+    public MethodInvokingFactoryBean methodInvokingFactoryBean(SecurityManager securityManager) {
+        MethodInvokingFactoryBean methodInvokingFactoryBean = new MethodInvokingFactoryBean();
+        methodInvokingFactoryBean.setStaticMethod("org.apache.shiro.SecurityUtils.setSecurityManager");
+        methodInvokingFactoryBean.setArguments(new Object[]{securityManager});
+        return methodInvokingFactoryBean;
     }
 }

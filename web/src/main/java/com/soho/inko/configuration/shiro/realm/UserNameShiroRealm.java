@@ -39,6 +39,7 @@ public class UserNameShiroRealm extends AuthorizingRealm {
             SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
             logger.info("拥有admin权限");
             info.addStringPermission("admin");
+            info.addStringPermission("order:create");
             return info;
         }
         //到数据库查是否有此对象

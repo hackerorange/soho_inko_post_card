@@ -15,7 +15,6 @@ import java.sql.Timestamp;
 @Table(name = "ppm_order", schema = "postcardtailor")
 public class OrderEntity {
     private String id;
-    private String customerAccountId;
     private String customerTaobaoId;
     private String createAccountId;
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
@@ -56,16 +55,6 @@ public class OrderEntity {
     }
 
     @Basic
-    @Column(name = "CUSTOMER_ACCOUNT_ID")
-    public String getCustomerAccountId() {
-        return customerAccountId;
-    }
-
-    public void setCustomerAccountId(String customerAccountId) {
-        this.customerAccountId = customerAccountId;
-    }
-
-    @Basic
     @Column(name = "CREATE_ACCOUNT_ID")
     public String getCreateAccountId() {
         return createAccountId;
@@ -94,7 +83,6 @@ public class OrderEntity {
         OrderEntity that = (OrderEntity) object;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (customerAccountId != null ? !customerAccountId.equals(that.customerAccountId) : that.customerAccountId != null) return false;
         if (createAccountId != null ? !createAccountId.equals(that.createAccountId) : that.createAccountId != null) return false;
         if (createDate != null ? !createDate.equals(that.createDate) : that.createDate != null) return false;
         if (customerTaobaoId != null ? !customerTaobaoId.equals(that.customerTaobaoId) : that.customerTaobaoId != null) return false;
@@ -105,7 +93,6 @@ public class OrderEntity {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (customerAccountId != null ? customerAccountId.hashCode() : 0);
         result = 31 * result + (createAccountId != null ? createAccountId.hashCode() : 0);
         result = 31 * result + (createDate != null ? createDate.hashCode() : 0);
         result = 31 * result + (customerTaobaoId != null ? customerTaobaoId.hashCode() : 0);

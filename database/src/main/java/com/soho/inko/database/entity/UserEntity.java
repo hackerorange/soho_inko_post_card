@@ -9,7 +9,7 @@ import java.sql.Timestamp;
  * Created by ZhongChongtao on 2017/4/16.
  */
 @Entity
-@Table(name = "crm_user", schema = "postcardtailor", catalog = "")
+@Table(name = "crm_user", schema = "postcardtailor")
 public class UserEntity {
     private String id;
     private String taoBaoId;
@@ -21,7 +21,18 @@ public class UserEntity {
     private String updateAccountId;
     private Timestamp updateDate;
     private String email;
+    private String skin;
     private boolean isLock = true;
+
+    @Basic
+    @Column(name = "SKIN")
+    public String getSkin() {
+        return skin;
+    }
+
+    public void setSkin(String skin) {
+        this.skin = skin;
+    }
 
     @Id
     @Column(name = "ID")

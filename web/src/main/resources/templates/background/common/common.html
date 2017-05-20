@@ -1,8 +1,11 @@
 <!--<html xmlns:th="http://www.thymeleaf.org">-->
-<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <base th:href="${#httpServletRequest.getScheme()+'://'+#httpServletRequest.getServerName()+':'+#httpServletRequest.getServerPort()+#httpServletRequest.getContextPath()}+'/'"/>
 </head>
+
+
 <!--
 =============================================================================
 
@@ -10,233 +13,134 @@
 
 =============================================================================
 -->
-<div th:fragment="navigation_left(category,choose)">
-    <div id="leftSide">
-        <div class="logo"><a th:href="@{index.html}">
-            <img src="" th:src="@{images/logo.png}" alt=""/></a></div>
-        <!-- Next update progress widget -->
-        <div class="nextUpdate">
-            <ul>
-                <li>Next update in:</li>
-                <li>23 hrs 14 min</li>
-            </ul>
-            <div class="pWrapper">
-                <div class="progressG" title="78%"></div>
+<div th:fragment="navigation_top(errorPage)">
+    <div th:class="${errorPage?'topheader orangeborderbottom5':'topheader'}">
+        <div class="left">
+            <h1 class="logo">inko. <span>postcardTailor</span></h1>
+            <span class="slogan">明信片处理系统</span>
+            <br clear="all"/>
+        </div><!--left-->
+
+        <div class="right">
+            <!--<div class="notification">
+                <a class="count" href="notifications.html"><span>9</span></a>
             </div>
-        </div>
-        <div class="sidebarSep"></div>
-        <!-- Left navigation -->
-        <ul id="menu" class="nav">
-            <li class="forms">
-                <a href="#"
-                   th:class="${category=='明信片'?'active exp':'exp'}"
-                   th:id="${category=='明信片'?'current':''}">
-                    <span>明信片</span>
-                    <strong>3</strong>
-                </a>
-                <ul class="sub" style="display: block">
-                    <li th:class="${choose=='裁切明信片'?'this':''}">
-                        <a th:href="@{background/postcard/tailor}">裁切明信片</a>
+            -->
+            <div shiro:user="" class="userinfo">
+                <img th:src="@{images/thumbs/avatar.png}" alt=""/>
+                <!--/*@thymesVar id="user" type="com.soho.inko.database.entity.UserEntity"*/-->
+                <span th:text="${user.getTaoBaoId()}"></span>
+            </div><!--userinfo-->
+
+            <div shiro:user="" class="userinfodrop">
+                <div class="avatar">
+                    <a href=""><img th:src="@{images/thumbs/avatarbig.png}" alt=""/></a>
+                    <div class="changeTheme">
+                        <p>修改主题: </p>
+                        <a class="default"></a>
+                        <a class="blueline"></a>
+                        <a class="greenline"></a>
+                        <a class="contrast"></a>
+                        <a class="custombg"></a>
+                    </div>
+                </div><!--avatar-->
+                <div class="userdata">
+                    <h4>Juan Dela Cruz</h4>
+                    <span class="email">youremail@yourdomain.com</span>
+                    <ul>
+                        <li><a th:href="@{editprofile.html}">Edit Profile</a></li>
+                        <li><a th:href="@{accountsettings.html}">Account Settings</a></li>
+                        <li><a th:href="@{help.html}">Help</a></li>
+                        <li><a th:href="@{logout}">Sign Out</a></li>
+                    </ul>
+                </div><!--userdata-->
+            </div><!--userinfodrop-->
+        </div><!--right-->
+    </div><!--topheader-->
+</div>
+
+
+<!--
+=============================================================================
+
+主菜单
+
+=============================================================================
+-->
+<div th:fragment="navigation_mainMenu(currentMenu)">
+    <div class="header">
+        <ul class="headermenu">
+            <li th:class="${currentMenu=='订单中心'?'current':''}">
+                <a th:href="@{order}"><span class="icon icon-flatscreen">
+                </span>订单中心</a>
+            </li>
+            <li th:class="${currentMenu=='裁切中心'?'current':''}">
+                <a th:href="@{order}"><span class="icon icon-pencil">
+                </span>裁切中心</a>
+            </li>
+            <li th:class="${currentMenu=='消息中心'?'current':''}">
+                <a th:href="@{order}"><span class="icon icon-message">
+                </span>消息中心</a>
+            </li>
+            <li th:class="${currentMenu=='统计中心'?'current':''}">
+                <a th:href="@{order}"><span class="icon icon-chart">
+                </span>统计中心</a>
+            </li>
+        </ul>
+
+        <div class="headerwidget">
+            <div class="earnings">
+                <div class="one_half">
+                    <h4>Today's Earnings</h4>
+                    <h2>$640.01</h2>
+                </div><!--one_half-->
+                <div class="one_half last alignright">
+                    <h4>Current Rate</h4>
+                    <h2>53%</h2>
+                </div><!--one_half last-->
+            </div><!--earnings-->
+        </div><!--headerwidget-->
+
+    </div><!--header-->
+</div>
+
+<!--
+=============================================================================
+
+左方导航栏(主分类、子分类)
+
+=============================================================================
+-->
+<div th:fragment="navigation_left(category,subCategory)">
+    <div class="vernav2 iconmenu">
+        <ul>
+            <li th:class="${category=='订单管理'?'current':''}">
+                <a href="#orderSub" class="editor">订单管理</a>
+                <span class="arrow"></span>
+                <ul id="orderSub">
+                    <li>
+                        <a th:href="@{order/new}">创建订单</a>
                     </li>
-                    <!--<li th:class="${choose=='查看明信片'?'this':''}">-->
-                    <!--<a th:href="@{background/postcard/view}">查看明信片</a>-->
-                    <!--</li>-->
-                    <!--<li th:class="${choose=='打印明信片'?'this':''}">-->
-                    <!--<a th:href="@{background/postcard/print}">打印明信片</a>-->
-                    <!--</li>-->
-                    <!--<li th:class="${choose=='上传明信片'?'this':''}">-->
-                    <!--<a th:href="@{background/postcard/print}">上传明信片</a>-->
-                    <!--</li>-->
+                    <li th:class="${subCategory=='所有订单'?'current':''}">
+                        <a th:href="@{order}">所有订单</a>
+                    </li>
                 </ul>
             </li>
-            <li class="forms">
-                <a href="#"
-                   th:class="${category=='设置'?'active exp':'exp'}"
-                   th:id="${category=='设置'?'current':''}">
-                    <span>设置</span>
-                    <strong>1</strong>
-                </a>
-                <ul class="sub" style="display: block">
-                    <li th:class="${choose=='明信片尺寸'?'this':''}">
-                        <a th:href="@{background/settings/postcardSize}">尺寸列表</a>
-                    </li>
-                    <li th:class="${choose=='明信片反面'?'this':''}">
-                        <a th:href="@{background/settings/cardBack}">反面列表</a>
-                    </li>
-                </ul>
-            </li>
-            <li class="forms">
-                <a href="#"
-                   th:class="${category=='订单资料'?'active exp':'exp'}"
-                   th:id="${category=='订单资料'?'current':''}">
-                    <span>订单资料</span>
-                    <strong>1</strong>
-                </a>
-                <ul class="sub" style="display: block">
-                    <li th:class="${choose=='订单列表'?'this':''}">
-                        <a th:href="@{background/order}">订单列表</a>
-                    </li>
-                    <li th:class="${choose=='订单明细'?'this':''}">
-                        <a href="javascript:void(0);">订单明细</a>
-                    </li>
+            <li th:class="${category=='集合管理'?'current':''}">
+                <a href="#formsub" class="element">集合管理</a>
+                <span class="arrow"></span>
+                <ul id="formsub">
+                    <li><a href="forms.html">所有集合</a></li>
+                    <li><a href="wizard.html">我的集合</a></li>
                 </ul>
             </li>
         </ul>
-    </div>
+        <a class="togglemenu"></a>
+        <br/><br/>
+    </div><!--leftmenu-->
 </div>
-<!--
-=============================================================================
 
-左方导航栏
 
-=============================================================================
--->
-<div th:fragment="navigation_top">
-    <div class="topNav">
-        <div class="wrapper">
-            <div class="welcome"><a th:href="@{'#'}" title="">
-                <!--<p shiro:guest="">-->
-                <!--<span>对不起，您还没有登录</span>-->
-                <!--</p>-->
-                <!--<p shiro:user="">-->
-                <!--<shiro:principal/>-->
-                <!--</p>-->
-                <img src="" th:src="@{images/userPic.png}" alt=""/></a>
-                <span shiro:guest="">Howdy, Eugene!</span>
-                <!--/*@thymesVar id="user" type="com.soho.inko.database.entity.UserEntity"*/-->
-                <span shiro:user="" th:text="${user.taoBaoId}"></span>
-            </div>
-            <div class="userNav">
-                <ul>
-                    <li><a th:href="@{'#'}" title="">
-                        <img src="" th:src="@{images/icons/topnav/profile.png}" alt=""/><span>Profile</span></a></li>
-                    <li><a th:href="@{'#'}" title="">
-                        <img src="" th:src="@{images/icons/topnav/tasks.png}" alt=""/><span>Tasks</span></a></li>
-                    <li class="dd"><a title="">
-                        <img src="" th:src="@{images/icons/topnav/messages.png}" alt=""/><span>Messages</span><span class="numberTop">8</span></a>
-                        <ul class="userDropdown">
-                            <li><a th:href="@{'#'}" title="" class="sAdd">new message</a></li>
-                            <li><a th:href="@{'#'}" title="" class="sInbox">inbox</a></li>
-                            <li><a th:href="@{'#'}" title="" class="sOutbox">outbox</a></li>
-                            <li><a th:href="@{'#'}" title="" class="sTrash">trash</a></li>
-                        </ul>
-                    </li>
-                    <li><a th:href="@{'#'}" title="">
-                        <img src="" th:src="@{images/icons/topnav/settings.png}" alt=""/><span>Settings</span></a></li>
-                    <li><a th:href="@{logout}" title="">
-                        <img src="" th:src="@{images/icons/topnav/logout.png}" alt=""/><span>Logout</span></a></li>
-                </ul>
-            </div>
-            <div class="clear"></div>
-        </div>
-    </div>
-    <!-- Responsive header -->
-    <div class="resp">
-        <div class="respHead">
-            <a th:href="@{index.html}" title="">
-                <img src="" th:src="@{images/loginLogo.png}" alt=""/></a>
-        </div>
-        <div class="cLine"></div>
-        <div class="smalldd">
-            <span class="goTo">
-                <img src="" th:src="@{images/icons/light/home.png}" alt=""/>Dashboard</span>
-            <ul class="smallDropdown">
-                <li><a th:href="@{index.html}" title="">
-                    <img src="" th:src="@{images/icons/light/home.png}" alt=""/>Dashboard</a></li>
-                <li><a th:href="@{charts.html}" title="">
-                    <img src="" th:src="@{images/icons/light/stats.png}" alt=""/>Statistics and charts</a></li>
-                <li><a th:href="@{'#'}" title="" class="exp">
-                    <img src="" th:src="@{images/icons/light/pencil.png}" alt=""/>Forms stuff<strong>4</strong></a>
-                    <ul>
-                        <li><a th:href="@{forms.html}" title="">Form elements</a></li>
-                        <li><a th:href="@{form_validation.html}" title="">Validation</a></li>
-                        <li><a th:href="@{form_editor.html}" title="">WYSIWYG and file uploader</a></li>
-                        <li class="last"><a th:href="@{form_wizards.html}" title="">Wizards</a></li>
-                    </ul>
-                </li>
-                <li><a th:href="@{ui_elements.html}" title="">
-                    <img src="" th:src="@{images/icons/light/users.png}" alt=""/>Interface elements</a></li>
-                <li><a th:href="@{tables.html}" title="" class="exp">
-                    <img src="" th:src="@{images/icons/light/frames.png}" alt=""/>Tables<strong>3</strong></a>
-                    <ul>
-                        <li><a th:href="@{table_static.html}" title="">Static tables</a></li>
-                        <li><a th:href="@{table_dynamic.html}" title="">Dynamic table</a></li>
-                        <li class="last"><a th:href="@{table_sortable_resizable.html}" title="">Sortable &amp; resizable tables</a></li>
-                    </ul>
-                </li>
-                <li><a th:href="@{'#'}" title="" class="exp">
-                    <img src="" th:src="@{images/icons/light/fullscreen.png}" alt=""/>Widgets and grid<strong>2</strong></a>
-                    <ul>
-                        <li><a th:href="@{widgets.html}" title="">Widgets</a></li>
-                        <li class="last"><a th:href="@{grid.html}" title="">Grid</a></li>
-                    </ul>
-                </li>
-                <li><a th:href="@{'#'}" title="" class="exp">
-                    <img src="" th:src="@{images/icons/light/alert.png}" alt=""/>Error pages<strong>6</strong></a>
-                    <ul class="sub">
-                        <li><a th:href="@{../error/403.html}" title="">403 page</a></li>
-                        <li><a th:href="@{../error/404.html}" title="">404 page</a></li>
-                        <li><a th:href="@{../error/405.html}" title="">405 page</a></li>
-                        <li><a th:href="@{../error/500.html}" title="">500 page</a></li>
-                        <li><a th:href="@{../error/503.html}" title="">503 page</a></li>
-                        <li class="last"><a th:href="@{offline.html}" title="">Website is offline</a></li>
-                    </ul>
-                </li>
-                <li><a th:href="@{file_manager.html}" title="">
-                    <img src="" th:src="@{images/icons/light/files.png}" alt=""/>File manager</a></li>
-                <li><a th:href="@{'#'}" title="" class="exp">
-                    <img src="" th:src="@{images/icons/light/create.png}" alt=""/>Other pages<strong>3</strong></a>
-                    <ul>
-                        <li><a th:href="@{typography.html}" title="">Typography</a></li>
-                        <li><a th:href="@{calendar.html}" title="">Calendar</a></li>
-                        <li class="last"><a th:href="@{gallery.html}" title="">Gallery</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-        <div class="cLine"></div>
-    </div>
-    <!-- Title area -->
-    <div class="titleArea">
-        <div class="wrapper">
-            <div class="pageTitle">
-                <h5>Dashboard</h5>
-                <span>Do your layouts deserve better than Lorem Ipsum.</span>
-            </div>
-            <div class="middleNav">
-                <ul>
-                    <li class="mUser"><a title=""><span class="users"></span></a>
-                        <ul class="mSub1">
-                            <li><a th:href="@{'#'}" title="">Add user</a></li>
-                            <li><a th:href="@{'#'}" title="">Statistics</a></li>
-                            <li><a th:href="@{'#'}" title="">Orders</a></li>
-                        </ul>
-                    </li>
-                    <li class="mMessages"><a title=""><span class="messages"></span></a>
-                        <ul class="mSub2">
-                            <li><a th:href="@{'#'}" title="">New tickets<span class="numberRight">8</span></a></li>
-                            <li><a th:href="@{'#'}" title="">Pending tickets<span class="numberRight">12</span></a></li>
-                            <li><a th:href="@{'#'}" title="">Closed tickets</a></li>
-                        </ul>
-                    </li>
-                    <li class="mFiles"><a th:href="@{'#'}" title="Or you can use a tooltip" class="tipN"><span class="files"></span></a></li>
-                    <li class="mOrders"><a title=""><span class="orders"></span><span class="numberMiddle">8</span></a>
-                        <ul class="mSub4">
-                            <li><a th:href="@{'#'}" title="">Pending uploads</a></li>
-                            <li><a th:href="@{'#'}" title="">Statistics</a></li>
-                            <li><a th:href="@{'#'}" title="">Trash</a></li>
-                        </ul>
-                    </li>
-                </ul>
-                <div class="clear"></div>
-            </div>
-            <div class="clear"></div>
-        </div>
-    </div>
-    <div class="line"></div>
-    <!-- Page statistics and control buttons area -->
-
-</div>
 <!--
 =============================================================================
 

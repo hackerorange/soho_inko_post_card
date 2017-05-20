@@ -33,7 +33,7 @@ public class UserLoginController {
         if (TypeChecker.isNull(principal)) {
             return "user/login";
         }
-        return "redirect:index";
+        return "redirect:";
     }
 
     /**
@@ -47,7 +47,7 @@ public class UserLoginController {
     public String postLogin(HttpServletRequest request, Model model) {
         Object logError = request.getAttribute("loginError");
         if (StringUtils.isEmpty(logError)) {
-            return "redirect:index";
+            return "redirect:";
         }
 
 //        System.out.println(loginError);
@@ -70,7 +70,7 @@ public class UserLoginController {
         UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
         try {
             SecurityUtils.getSubject().login(token);
-            return "redirect:index";
+            return "redirect:";
         } catch (AuthenticationException e) {
             model.addAttribute("error", "注册失败");
             return "user/regist";
@@ -78,10 +78,10 @@ public class UserLoginController {
 
     }
 
-    @GetMapping({"index", ""})
-    public String getIndex() {
-        return "index";
-    }
+//    @GetMapping({"index", ""})
+//    public String getIndex() {
+//        return "index";
+//    }
 
     @GetMapping("account/login")
     public String getIndex2() {

@@ -6,10 +6,12 @@ import com.soho.inko.web.response.AbstractResponse;
 import com.soho.inko.web.response.BodyResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.validation.ConstraintViolationException;
 
@@ -47,7 +49,7 @@ public class GlobalExceptionHandler {
 
     @ResponseBody
     @ExceptionHandler(ConstraintViolationException.class)
-    public AbstractResponse handlerConstraintViolationException(ConstraintViolationException e){
+    public AbstractResponse handlerConstraintViolationException(ConstraintViolationException e) {
         logger.error(String.format("[ %20s ] : %s", "ConstraintViolationException", e.getLocalizedMessage()));
         BodyResponse bodyResponse = new BodyResponse();
         bodyResponse.setMessage(e.getLocalizedMessage());
@@ -57,6 +59,8 @@ public class GlobalExceptionHandler {
         logger.info(String.format("[ %-20S ] : %s", "response", JSONObject.toJSONString(bodyResponse)));
         return bodyResponse;
     }
+
+
 
 }
 

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
@@ -14,7 +15,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 
-import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -26,6 +26,7 @@ import java.util.Calendar;
 public class RedisConfig {
 
     @Bean(name = "dateKeyGenerator")
+    @ConditionalOnClass(KeyGenerator.class)
     public KeyGenerator dateKeyGenerator() {
         return (target, method, params) -> new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
     }
@@ -33,6 +34,8 @@ public class RedisConfig {
     @Autowired
     @Bean
     @Primary
+//    @ConditionalOnClass(RedisTemplate.class)
+//    @ConditionalOnBean(RedisConnectionFactory.class)
     public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory factory) {
         StringRedisTemplate template = new StringRedisTemplate(factory);
         Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);

@@ -1,342 +1,196 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<!--suppress HtmlPresentationalElement, JSUnresolvedVariable -->
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
     <base th:href="${#httpServletRequest.getScheme()+'://'+#httpServletRequest.getServerName()+':'+#httpServletRequest.getServerPort()+#httpServletRequest.getContextPath()}+'/'"/>
-    <title>Crown - premium responsive admin template for backend systems</title>
-    <link th:href="@{css/main.css}" rel="stylesheet" type="text/css"/>
-    <link th:href="@{css/webUploader.css}" rel="stylesheet" type="text/css"/>
-
-
-    <style type="text/css">
-        .envelopeDetailActive {
-            background: none repeat scroll 0 0 #a9edf9;
-
-        }
-
-        #envelopeDetails tr:hover {
-            background: none repeat scroll 0 0 #a9edf9;
-            cursor: pointer;
-        }
-    </style>
-    <script type="text/javascript" src="" th:src="@{js/jquery.min.js}"></script>
-    <script type="text/javascript" src="" th:src="@{js/plugins/spinner/ui.spinner.js}"></script>
-    <script type="text/javascript" src="" th:src="@{js/plugins/spinner/jquery.mousewheel.js}"></script>
-    <script type="text/javascript" src="" th:src="@{js/jquery-ui.min.js}"></script>
-    <script type="text/javascript" src="" th:src="@{js/plugins/forms/uniform.js}"></script>
-    <script type="text/javascript" src="" th:src="@{js/plugins/forms/jquery.cleditor.js}"></script>
-    <script type="text/javascript" src="" th:src="@{js/plugins/forms/jquery.validationEngine-en.js}"></script>
-    <script type="text/javascript" src="" th:src="@{js/plugins/forms/jquery.validationEngine.js}"></script>
-    <script type="text/javascript" src="" th:src="@{js/plugins/forms/jquery.tagsinput.min.js}"></script>
-    <script type="text/javascript" src="" th:src="@{js/plugins/forms/autogrowtextarea.js}"></script>
-    <script type="text/javascript" src="" th:src="@{js/plugins/forms/jquery.maskedinput.min.js}"></script>
-    <script type="text/javascript" src="" th:src="@{js/plugins/forms/jquery.dualListBox.js}"></script>
-    <script type="text/javascript" src="" th:src="@{js/plugins/forms/jquery.inputlimiter.min.js}"></script>
-    <script type="text/javascript" src="" th:src="@{js/plugins/forms/chosen.jquery.min.js}"></script>
-    <script type="text/javascript" src="" th:src="@{js/plugins/wizard/jquery.form.js}"></script>
-    <script type="text/javascript" src="" th:src="@{js/plugins/wizard/jquery.validate.min.js}"></script>
-    <script type="text/javascript" src="" th:src="@{js/plugins/wizard/jquery.form.wizard.js}"></script>
-    <script type="text/javascript" src="" th:src="@{js/plugins/tables/datatable.js}"></script>
-    <script type="text/javascript" src="" th:src="@{js/plugins/tables/tablesort.min.js}"></script>
-    <script type="text/javascript" src="" th:src="@{js/plugins/tables/resizable.min.js}"></script>
-    <script type="text/javascript" src="" th:src="@{js/plugins/ui/jquery.tipsy.js}"></script>
-    <script type="text/javascript" src="" th:src="@{js/plugins/ui/jquery.collapsible.min.js}"></script>
-    <script type="text/javascript" src="" th:src="@{js/plugins/ui/jquery.prettyPhoto.js}"></script>
-    <script type="text/javascript" src="" th:src="@{js/plugins/ui/jquery.progress.js}"></script>
-    <script type="text/javascript" src="" th:src="@{js/plugins/ui/jquery.timeentry.min.js}"></script>
-    <script type="text/javascript" src="" th:src="@{js/plugins/ui/jquery.colorpicker.js}"></script>
-    <script type="text/javascript" src="" th:src="@{js/plugins/ui/jquery.jgrowl.js}"></script>
-    <script type="text/javascript" src="" th:src="@{js/plugins/ui/jquery.breadcrumbs.js}"></script>
-    <script type="text/javascript" src="" th:src="@{js/plugins/ui/jquery.sourcerer.js}"></script>
-    <script type="text/javascript" src="" th:src="@{js/plugins/calendar.min.js}"></script>
-    <script type="text/javascript" src="" th:src="@{js/plugins/elfinder.min.js}"></script>
-    <script type="text/javascript" src="" th:src="@{js/plugins/webUploader/webuploader.html5only.js}"></script>
-    <script type="text/javascript" src="" th:src="@{js/custom.js}"></script>
-
-
-    <!--<script type="text/javascript" src="" th:src="@{js/charts/chart.js}"></script>-->
-    <script type="text/javascript" th:inline="JavaScript">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title th:text="我的订单明细">订单明细</title>
+    <link rel="stylesheet" th:href="@{css/style.default.css}" type="text/css"/>
+    <script type="text/javascript" th:src="@{js/plugins/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{js/plugins/jquery-ui-1.8.16.custom.min.js}"></script>
+    <script type="text/javascript" th:src="@{js/plugins/jquery.cookie.js}"></script>
+    <script type="text/javascript" th:src="@{js/plugins/jquery.uniform.min.js}"></script>
+    <!--<script type="text/javascript" th:src="@{js/plugins/jquery.dataTables.min.js}"></script>-->
+    <script type="text/javascript" th:src="@{js/plugins/dataTable/js/jquery.dataTables.js}"></script>
+    <script type="text/javascript" th:src="@{js/plugins/jquery.slimscroll.js}"></script>
+    <script type="text/javascript" th:src="@{js/custom/general.js}"></script>
+    <script type="text/javascript" th:inline="javascript">
         var tokenId = [[${tokenId}]];
-        var orderId = [[${orderId}]];
-        var envelopeId = [[${envelopeId}]];
-        var apiBasePath = [[${apiBasePath}]];
-        var currentEnvelope;
-        //        <![CDATA[
-        $(function () {
-            $("#dialog-message").dialog({
-                autoOpen: false,
-                modal: true,
-                resizable: false,
-                width: 500,
-                buttons: {
-                    保存: function () {
-                        var data = {};
-                        $('form[name="newEnvelopeForm"]').serializeArray().map(function (x) {
-                            data[x.name] = x.value;
-                        });
-                        console.log(data);
-                        $.ajax({
-                            url: apiBasePath + '/order/' + orderId,
-                            headers: tokenId,
-                            type: 'post',
-                            data: data,
-//                            content: 'application/json',
-                            success: function (result) {
-                                switch (result.code) {
-                                    case 200:
-                                        $(this).dialog("close");
-                                        loadOrderDetail();
-                                }
-                            },
-                            error: function (result) {
-                                console.log(result);
-                            }
-                        })
+        console.log(tokenId);
+        /**
+         * 更新订单状态
+         *
+         * @param object 下拉框对象
+         */
+        function changeOrderStatus(object) {
+            console.log("==========================================");
+            var orderId = $(object).attr('orderId');
+
+            if (orderId != '') {
+                console.log(orderId);
+                $.ajax({
+                    url: 'order/' + $(object).attr('orderId') + '/changeStatus',
+                    type: 'put',
+                    data: {
+                        orderStatusEnum: $(object).attr('value')
                     },
-                    取消: function () {
-                        $(this).dialog("close");
-                    }
-                }
-            });
-
-            $("#addNewEnvelope").click(function () {
-                $("form[name='newEnvelopeForm']").resetForm();
-                $("#dialog-message").dialog("open");
-                return false;
-            });
-
-
-            //启动的时候刷新数据
-            loadOrderDetail();
-            $('#orderListDetailRefreshButton').on('click', loadOrderDetail);
-//          ajax请求后台数据库所有尺寸信息
-            function loadOrderDetail() {
-                console.log("==============================");
-                //获取所有背景信息
-                $.ajax({
-                    url: apiBasePath + '/dictionary/cardBack',
-                    type: 'get',
                     success: function (result) {
-                        $('#backgroundSelect').html('');
-                        $(result.body).each(function (index, data) {//添加到反面样式
-                            $('#backgroundSelect')
-                                .append($('<option>')
-                                    .attr('value', data.id)//值为ID
-                                    .attr('option', data.title)//title为内容
-                                    .html(data.title)
-                                );
-                        })
-                    }
-
-                });
-
-
-                $.ajax({
-                    url: apiBasePath + '/order/' + orderId,
-                    type: 'get',
-                    success: function (result) {
-                        switch (result.code) {
-                            case 92:
-                                window.location.reload();
-                                break;
-                            case 200:
-                                var sizeList = result.body.envelopeEntities;
-                                //当前没有记录的情况下，跳转到创建页面
-//                                if ($(sizeList).size() == 0) {
-//                                    window.location = 'background/order/' + orderId + '/new';
-//                                } else {
-                                    var $envelopeDetails = $('#envelopeDetails');
-                                    $envelopeDetails.html("");
-                                    $(sizeList).each(function (index, data) {
-                                        $envelopeDetails.append(
-                                            $('<tr>')
-                                                .on('click', function () {
-                                                    $(this)
-                                                        .addClass('envelopeDetailActive')
-                                                        .siblings().removeClass('envelopeDetailActive');
-                                                    window.location = 'background/order/' + orderId + '/' + data.envelopeEntity.id;
-                                                })
-                                                //正面样式
-                                                .append($('<td>')
-                                                    .append($('<a>')
-                                                        .attr('href', 'background/order/' + orderId + '/' + data.envelopeEntity.id)
-                                                        .html(data.envelopeEntity.formatTypeId)))
-                                                //反面板式
-                                                .append($('<td>').html(data.envelopeEntity.backgroundId))
-                                                //宽度
-                                                .append($('<td>').html(data.envelopeEntity.productWidth))
-                                                //高度
-                                                .append($('<td>').html(data.envelopeEntity.productHeight))
-                                                .append($('<td>')
-                                                    .append($('<a href="javascript:void(0)" class="tipS" original-title="delete">')
-                                                        .append('<img src="images/icons/remove.png" alt=""/>')
-                                                        .attr('envelopeId', data.envelopeEntity.id)
-                                                        .on('click', function () {
-                                                            if (confirm('是否真的删除此明信片集合，删除后，此明信片集合下的所有明信片都将被删除?')) {
-                                                                $.ajax({
-                                                                        type: 'delete',
-                                                                        headers: {
-                                                                            tokenId: tokenId
-                                                                        },
-                                                                        url: apiBasePath + '/order/' + orderId + '/' + data.envelopeEntity.id,
-                                                                        success: function (result) {
-                                                                            switch (result.code) {
-                                                                                case 200:
-                                                                                    loadOrderDetail();
-                                                                                    break;
-                                                                                default:
-                                                                                    break;
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                )
-                                                            }
-                                                        })
-                                                    )
-                                                )
-
-                                            //明信片相关操作
-                                        );
-//                                    console.log(this);
-                                    });
-//                                }
-                                break;
-                            default:
-                                window.location = 'background/order';
-                                break;
+                        console.log(result);
+                        if (result.code == 200) {
+                            $(object).parent('td').attr('class', 'gradeX orderStatus_' + $(object).attr('value').toString().toLowerCase());
+                        } else {
+                            //重新加载窗口
+                            window.location.reload();
                         }
+                        //更新状态颜色
+                    },
+                    error: function (result) {
+                        console.log(result)
                     }
                 });
-                //获取所有尺寸信息
             }
+        }
+
+        $(function () {
+
+            /*******************************************************
+             *
+             * 订单表格属性设置
+             *
+             *******************************************************/
+            $('#dyntable').dataTable({
+                autoWidth: false,
+                language: {
+                    lengthMenu: "每页 _MENU_ 条记录",
+                    zeroRecords: " ",
+                    info: "当前 _START_ 条到 _END_ 条 共 _TOTAL_ 条",
+                    infoEmpty: "无记录",
+                    infoFiltered: "(从 _MAX_ 条记录过滤)",
+                    search: "关键字查询 ",
+                    processing: "载入中",
+                    paginate: {
+                        first: "首页",
+                        previous: "上一页",
+                        next: "下一页",
+                        last: "尾页"
+                    }
+                },
+                paging: true,
+                pagingType: 'full_numbers',
+//                ordering: false,
+                info: true
+            })
+                .on('page.dt', function () {
+                    console.log("数据更新了");
+                    /*******************************************************
+                     *
+                     * 修改状态操作
+                     *
+                     *******************************************************/
+                    $('.orderStatusChoose').on('change', function () {
+
+                    })
+                });
         });
-        //        ]]>
     </script>
+
 </head>
-<body>
-<!--包含左侧边框-->
-<div th:include="background/common/common::navigation_left(${'订单资料'},${'订单明细'})"></div>
-<div id="rightSide">
-    <!-- Top fixed navigation -->
-    <div th:include="background/common/common::navigation_top"></div>
+
+<body class="withvernav">
+<div class="bodywrapper">
 
     <!--
-    =======
-    我的布局
-    =======
+    =================================================================================
+    =   从公共模板中获取顶部信息，参数：1：是否为错误页面，错误页面下面会有一条红线
+    =================================================================================
     -->
+    <div th:include="background/common/common::navigation_top(${'false'})"></div>
+    <!--
+    =================================================================================
+    =   从公共模板中获主菜单信息，参数：1：主菜单名称
+    =================================================================================
+    -->
+    <div th:include="background/common/common::navigation_mainMenu(${'订单中心'})"></div>
+    <!--
+    =================================================================================
+    =   从公共模板中获取左侧边框信息
+    =================================================================================
+    -->
+    <div th:include="background/common/common::navigation_left(${'订单管理'},${'所有订单'})"></div>
 
 
-    <div class="wrapper">
+    <div class="centercontent">
 
-        <div class="uDialog">
-            <div id="dialog-message" title="添加新的明信片集合">
-                <!--<p><img src="" th:src="@{images/icons/color/tick.png}" alt="" class="icon"/>Your files have downloaded successfully into the My Downloads folder.</p>-->
-                <!--<p>Currently using <strong>36% of your storage space</strong></p>-->
-
-                <div class="uiForm">
-                    <!--/*@thymesVar id="orderId" type="java.lang.String"*/-->
-                    <form class="dialog" name="newEnvelopeForm">
-                        <div class="formRow">
-                            <table>
-                                <tr style="height: 40px">
-                                    <td style="width: 100px"><label>正面版式</label></td>
-                                    <td>
-                                        <select name="cardFormat" title="" id="formatSelect">
-                                            <option value="1" selected="selected">A版</option>
-                                            <option value="2">B版</option>
-                                            <option value="3">C版</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr style="height: 40px">
-                                    <td style="width: 100px"><label>背面图案</label></td>
-                                    <td>
-                                        <select name="cardBack" title="" id="backgroundSelect">
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr style="height: 40px">
-                                    <td style="width: 100px"><label>裁切类型</label></td>
-                                    <td>
-                                        <select name="cropType" title="" id="cropType">
-                                            <option selected="selected" value="CROP_AND_WHITE">自动</option>
-                                            <option value="CROP">只留白边</option>
-                                            <option value="WHITE">裁切，无白边</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr style="height: 40px">
-                                    <td style="width: 100px"><label>成品宽度</label></td>
-                                    <td><input name="width"/></td>
-                                </tr>
-                                <tr style="height: 40px">
-                                    <td style="width: 100px"><label>成品高度</label></td>
-                                    <td><input name="height"/></td>
-                                </tr>
-                                <tr style="height: 40px">
-                                    <td style="width: 100px"><label>成品份数</label></td>
-                                    <td><input name="copy" value="1"/></td>
-                                </tr>
-                                <tr style="height: 40px">
-                                    <td style="width: 100px"><label>成品文件名称</label></td>
-                                    <td><input name="productFileName"/></td>
-                                </tr>
-                            </table>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <!--</div>-->
-
-            <!-- Sample page content to illustrate the layering of the dialog -->
-            <!--<a href="#" title="" class="button greyishB" id="opener" style="margin: 5px;"><span>Dialog with form elements</span></a>-->
-
-
+        <div class="pageheader">
+            <h1 class="pagetitle">明信片订单列表</h1>
+            <span class="pagedesc">所有的明信片订单信息</span>
+            <ul class="hornav">
+                <li class="current">
+                    <a href="#orders">最新更新</a>
+                </li>
+            </ul>
         </div>
-        <div class="widgets">
-            <div class="oneThree">
-                <div class="widget">
-                    <div class="title">
-                        <img src="" th:src="@{images/icons/dark/add.png}" alt="" class="titleIcon"/><h6>订单相关信息</h6>
-                    </div>
-                    <div class="body" style="display: block;height: 100px">
-                    </div>
-                </div>
-            </div>
-            <div class="twoOne">
-                <div class="widget">
-                    <div class="title">
-                        <img src="" th:src="@{images/icons/dark/add.png}" alt="" class="titleIcon"/><h6>明信片集合信息</h6>
-                        <div class="topIcons">
-                            <!--<a id="" href="javascript:void(0);" class="tipS" original-title="Print invoice"><img src="" th:src="@{images/icons/printTop.png}" alt=""/></a>-->
-                            <a id="addNewEnvelope" href="javascript:void(0);" class="tipS" original-title="添加新的集合"><img src="" th:src="@{images/icons/editTop.png}" alt=""/></a>
-                        </div>
-                    </div>
-                    <table cellpadding="0" cellspacing="0" width="100%" class="sTable">
-                        <thead>
-                        <tr>
-                            <td width="80">正面版式</td>
-                            <td width="80">反面版式</td>
-                            <td width="80">成品宽度</td>
-                            <td width="80">成品高度</td>
-                            <td width="40">删除</td>
-                        </tr>
-                        </thead>
-                        <tbody id="envelopeDetails">
-                        <tr>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Footer line -->
-    <div th:include="background/common/common::footer"></div>
-</div>
-<div class="clear"></div>
+
+        <div id="contentwrapper" class="contentwrapper">
+            <!--订单明细选项卡-->
+            <div id="orders" class="subcontent">
+                <table cellpadding="0" cellspacing="0" border="0" class="stdtable stdtablecb" id="dyntable">
+                    <colgroup>
+                        <col class="con0" style="width: 100px"/>
+                        <col class="con1" style="width: 200px"/>
+                        <col class="con1"/>
+                        <col class="con0" style="width: 150px"/>
+                        <col class="con0" style="width: 150px"/>
+                        <col class="con1" style="width: 100px"/>
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th class="head0">序号</th>
+                        <th class="head1">订单号</th>
+                        <th class="head0">客户淘宝ID</th>
+                        <th class="head1">创建时间</th>
+                        <th class="head0">当前状态</th>
+                        <th class="head0">相关操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!--/*@thymesVar id="orders" type="java.util.ArrayList<com.soho.inko.database.entity.OrderEntity>"*/-->
+                    <tr th:class="gradeX" th:each="order,orderStat : ${orders}">
+                        <td th:text="${orderStat.index}"></td>
+                        <td><a th:href="@{'order/'+${order.id}}" th:text="${order.id}"></a></td>
+                        <td th:text="${order.customerTaobaoId}"></td>
+                        <td th:text="${#dates.format(order.createDate, 'yyyy-MM-dd HH:mm:ss')}" class="center"></td>
+                        <td th:class="'orderStatus_'+${order.orderStatus.name().toLowerCase()}"><!--<td th:text="${order.orderStatus.desc}">-->
+                            <select class="orderStatusChoose" th:attr="orderId=${order.id}" title="订单状态" onchange="changeOrderStatus(this)">
+                                <!--订单状态枚举值-->
+                                <!--suppress ThymeleafVariablesResolveInspection -->
+                                <option th:selected="${order.orderStatus==state}?'true':'false'"
+                                        th:each="state : ${T(com.soho.inko.database.constant.OrderStatusEnum).values()}"
+                                        th:value="${state}"
+                                        th:text="${state.desc}">
+                                </option>
+                            </select>
+                        </td>
+                        <td class="center">
+                            <a href="javascript:void(0)" th:class="orderDeleteButton" th:attr="orderId=${order.id}">删除</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div><!-- #updates -->
+
+            <div id="activities" class="subcontent" style="display: none;">
+                &nbsp;
+            </div><!-- #activities -->
+
+        </div><!--contentwrapper-->
+
+        <br clear="all"/>
+
+    </div><!-- centercontent -->
+
+</div><!--bodywrapper-->
+
 </body>
 </html>
