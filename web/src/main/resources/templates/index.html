@@ -1,19 +1,51 @@
-<!--<!DOCTYPE html>-->
-<!--<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">-->
-<!--<head>-->
-    <!--<meta charset="UTF-8"/>-->
-    <!--<base th:href="${#httpServletRequest.getScheme()+'://'+#httpServletRequest.getServerName()+':'+#httpServletRequest.getServerPort()+#httpServletRequest.getContextPath()+'/'}"/>-->
-    <!--<title>欢迎页面</title>-->
-<!--</head>-->
-<!--<body>-->
-<!--<div>欢迎使用</div>-->
-<!--<p shiro:guest="">你是游客</p>-->
-<!--<p shiro:user="">-->
-    <!--你是用户-->
-    <!--<shiro:principal/>-->
-    <!--你好啊-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 
-<!--</p>-->
-<!--<a th:href="@{/background}">跳转到后台</a>-->
-<!--</body>-->
-<!--</html>-->
+<head>
+    <base th:href="${#httpServletRequest.getScheme()+'://'+#httpServletRequest.getServerName()+':'+#httpServletRequest.getServerPort()+#httpServletRequest.getContextPath()}+'/'"/>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>明信片管理系统</title>
+</head>
+
+<body style="margin-top: 50px">
+<div th:include="framework/common::heads"></div>
+<div id="wrapper">
+
+    <div th:include="framework/common::navigation(${'订单资料'},${'订单明细'})"></div>
+    <!-- Page Content -->
+    <div id="page-wrapper">
+        <div class="container-fluid" style="height: 100%">
+            <div class="row">
+                <br/>
+                <br/>
+                <br/>
+                <div class="col-lg-12">
+                    <h1 class="page-header" style="text-align: center">欢迎使用明信片裁切系统V2.0</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /#page-wrapper -->
+
+
+</div>
+<!-- /#wrapper -->
+
+<!--<script src="../static/vendor/jquery/jquery.js" th:href="@{vendor/jquery/jquery.min.js}"></script>-->
+<!--&lt;!&ndash; Bootstrap Core JavaScript &ndash;&gt;-->
+<!--<script src="../static/vendor/bootstrap/js/bootstrap.min.js" th:href="@{vendor/bootstrap/js/bootstrap.min.js}"></script>-->
+<!--&lt;!&ndash; Metis Menu Plugin JavaScript &ndash;&gt;-->
+<!--<script src="../static/vendor/metisMenu/metisMenu.min.js" th:href="@{vendor/metisMenu/metisMenu.min.js}"></script>-->
+<!--&lt;!&ndash; Custom Theme JavaScript &ndash;&gt;-->
+<!--<script src="../static/dist/js/sb-admin-2.js" th:href="@{dist/js/sb-admin-2.js}"></script>-->
+
+</body>
+
+</html>

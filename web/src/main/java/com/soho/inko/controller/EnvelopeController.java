@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * Created by ZhongChongtao on 2017/4/29.
  */
 @Controller
-@RequestMapping("background/order/{orderId}")
+@RequestMapping("order/{orderId}")
 public class EnvelopeController {
 
     @GetMapping("new")

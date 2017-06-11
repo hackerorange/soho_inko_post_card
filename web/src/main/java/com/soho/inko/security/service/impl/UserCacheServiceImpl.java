@@ -32,7 +32,7 @@ public class UserCacheServiceImpl implements UserCacheService {
         UserEntity userEntity = new UserEntity();
         userEntity.setUserName(userName);
         userEntity.setUserPassword(password);
-        userEntity.setTaoBaoId(taoBaoId);
+        userEntity.setRealName(taoBaoId);
         userEntity.setEmail(email);
         passwordSupport.encryptUserEntity(userEntity);
         userEntity = userRepository.save(userEntity);

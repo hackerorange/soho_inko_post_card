@@ -1,49 +1,53 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <base th:href="${#httpServletRequest.getScheme()+'://'+#httpServletRequest.getServerName()+':'+#httpServletRequest.getServerPort()+#httpServletRequest.getContextPath()+'/'}"/>
-    <title>404错误提示页面</title>
-    <link rel="stylesheet" th:href="@{css/style.default.css}" type="text/css"/>
-    <script type="text/javascript" th:src="@{js/plugins/jquery-1.7.min.js}"></script>
-    <script type="text/javascript" th:src="@{js/plugins/jquery-ui-1.8.16.custom.min.js}"></script>
-    <script type="text/javascript" th:src="@{js/plugins/jquery.cookie.js}"></script>
-    <script type="text/javascript" th:src="@{js/custom/general.js}"></script>
+    <base th:href="${#httpServletRequest.getScheme()+'://'+#httpServletRequest.getServerName()+':'+#httpServletRequest.getServerPort()+#httpServletRequest.getContextPath()}+'/'"/>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>明信片管理系统</title>
 </head>
 
-<body>
-<div class="bodywrapper">
-    <!--
-       =================================================================================
-       =   从公共模板中获取顶部信息，参数：1：是否为错误页面，错误页面下面会有一条红线           =
-       =================================================================================
-       -->
-    <div th:include="background/common/common::navigation_top(${'true'})"></div>
+<body style="margin-top: 50px">
+<div th:include="framework/common::heads"></div>
+<div id="wrapper">
 
-
-    <div class="contentwrapper padding10">
-        <div class="errorwrapper error404">
-            <div class="errorcontent">
-                <h1>404 页面未找到</h1>
-                <h3>没有找到指定的页面</h3>
-
-                <p>未找到您查找的页面，可能有以下几个原因</p>
-                <ul>
-                    <li>页面从来没有存在过</li>
-                    <li>因为某些原因，页面已经被删除</li>
-                    <li>你要查找的信息不再这里</li>
-                </ul>
+    <div th:include="framework/common::navigation(${'订单资料'},${'订单明细'})"></div>
+    <!-- Page Content -->
+    <div id="page-wrapper">
+        <div class="container-fluid" style="height: 100%">
+            <div class="row">
                 <br/>
-                <button class="stdbtn btn_black" onclick="history.back()">返回上一个页面</button>
-                &nbsp;
-                <button onclick="location.href='dashboard.html'" class="stdbtn btn_orange">返回主页</button>
-            </div><!--errorcontent-->
-        </div><!--errorwrapper-->
+                <br/>
+                <br/>
+                <div class="col-lg-12">
+                    <h1 style="text-align: center">404 页面不存在</h1>
+                    <h2 style="text-align: center">你要找的页面不存在</h2>
+
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
     </div>
+    <!-- /#page-wrapper -->
 
 
-</div><!--bodywrapper-->
+</div>
+<!-- /#wrapper -->
+
+<!--<script src="../static/vendor/jquery/jquery.js" th:href="@{vendor/jquery/jquery.min.js}"></script>-->
+<!--&lt;!&ndash; Bootstrap Core JavaScript &ndash;&gt;-->
+<!--<script src="../static/vendor/bootstrap/js/bootstrap.min.js" th:href="@{vendor/bootstrap/js/bootstrap.min.js}"></script>-->
+<!--&lt;!&ndash; Metis Menu Plugin JavaScript &ndash;&gt;-->
+<!--<script src="../static/vendor/metisMenu/metisMenu.min.js" th:href="@{vendor/metisMenu/metisMenu.min.js}"></script>-->
+<!--&lt;!&ndash; Custom Theme JavaScript &ndash;&gt;-->
+<!--<script src="../static/dist/js/sb-admin-2.js" th:href="@{dist/js/sb-admin-2.js}"></script>-->
 
 </body>
+
 </html>

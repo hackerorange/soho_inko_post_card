@@ -51,7 +51,7 @@ public class UserLoginController {
         }
 
 //        System.out.println(loginError);
-        model.addAttribute("error", logError);
+        model.addAttribute("error", "用户名或密码不正确");
         return "user/login";
     }
 
@@ -75,7 +75,6 @@ public class UserLoginController {
             model.addAttribute("error", "注册失败");
             return "user/regist";
         }
-
     }
 
 //    @GetMapping({"index", ""})

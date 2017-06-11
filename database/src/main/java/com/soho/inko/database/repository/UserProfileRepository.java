@@ -1,10 +1,10 @@
 package com.soho.inko.database.repository;
 
+import com.soho.inko.database.entity.UserProfileEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-import sun.plugin.util.UserProfile;
 
 /**
  * Created by ZhongChongtao on 2017/5/20.
  */
-public interface UserProfileRepository extends JpaRepository<UserProfile, String> {
+public interface UserProfileRepository extends JpaRepository<UserProfileEntity, String> {
 }

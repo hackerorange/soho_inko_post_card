@@ -1,9 +1,11 @@
 package com.soho.inko.controller;
 
 import com.soho.inko.database.constant.OrderStatusEnum;
+import com.soho.inko.database.entity.OrderEntity;
 import com.soho.inko.database.entity.UserEntity;
 import com.soho.inko.mapper.OrderMapper;
-import com.soho.inko.service.IOrderService;
+import com.soho.inko.service.IOrderCacheService;
+import com.soho.inko.service.impl.NoSuchOrderException;
 import com.soho.inko.utils.TypeChecker;
 import com.soho.inko.web.response.StandardResponse;
 import org.apache.shiro.SecurityUtils;
@@ -25,12 +27,12 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("order")
 public class OrderController {
 
-    private final IOrderService orderService;
+    private final IOrderCacheService orderService;
 
     private final OrderMapper orderMapper;
 
     @Autowired
-    public OrderController(IOrderService orderService, OrderMapper orderMapper) {
+    public OrderController(IOrderCacheService orderService, OrderMapper orderMapper) {
         this.orderService = orderService;
         this.orderMapper = orderMapper;
     }
@@ -54,10 +56,19 @@ public class OrderController {
         return standardResponse;
     }
 
+    @PostMapping("")
+    public String addOrder(String taobaoOrderId, String customerTaobaoId, Integer postCardCount) {
+        System.out.println(taobaoOrderId);
+        System.out.println(customerTaobaoId);
+        System.out.println(postCardCount);
+        return "redirect:order/123423";
+    }
+
+
     @GetMapping("")
     public String getOrderAll(Model model) {
         model.addAttribute("orders", orderService.getAllOrderEntity());
-        return "background/order/order_view";
+        return "order/order_list";
     }
 
     @RequiresPermissions("order:create")
@@ -69,11 +80,16 @@ public class OrderController {
 
 
     @GetMapping("{orderId}")
-    public ModelAndView getOrderDetail(@PathVariable("orderId") String orderId, ModelAndView view) {
-        view.getModel().put("orderId", orderId);
-        view.setViewName("background/order/order_detail");
-        return view;
+    public String getOrderDetail(@PathVariable("orderId") String orderId, Model model) {
+        model.addAttribute("orderId", orderId);
+        try {
+            OrderEntity orderEntity = orderService.getOrderEntity(orderId);
+            model.addAttribute("order", orderEntity);
+            return "background/order/order_detail";
+        } catch (NoSuchOrderException e) {
+            //没有找到Order的情况下，跳转到订单列表
+            return "redirect:.";
+        }
     }
-
 
 }

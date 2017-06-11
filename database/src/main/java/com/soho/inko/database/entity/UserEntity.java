@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 @Table(name = "crm_user", schema = "postcardtailor")
 public class UserEntity {
     private String id;
-    private String taoBaoId;
+    private String realName;
     private String userName;
     private String userPassword = "_";
     private String salt;
@@ -47,13 +47,13 @@ public class UserEntity {
     }
 
     @Basic
-    @Column(name = "TAO_BAO_ID")
-    public String getTaoBaoId() {
-        return taoBaoId;
+    @Column(name = "REAL_NAME")
+    public String getRealName() {
+        return realName;
     }
 
-    public void setTaoBaoId(String taoBaoId) {
-        this.taoBaoId = taoBaoId;
+    public void setRealName(String taoBaoId) {
+        this.realName = taoBaoId;
     }
 
     @Basic
@@ -155,7 +155,7 @@ public class UserEntity {
 
         if (isLock != that.isLock) return false;
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (taoBaoId != null ? !taoBaoId.equals(that.taoBaoId) : that.taoBaoId != null) return false;
+        if (realName != null ? !realName.equals(that.realName) : that.realName != null) return false;
         if (userName != null ? !userName.equals(that.userName) : that.userName != null) return false;
         if (userPassword != null ? !userPassword.equals(that.userPassword) : that.userPassword != null) return false;
         if (salt != null ? !salt.equals(that.salt) : that.salt != null) return false;
@@ -171,7 +171,7 @@ public class UserEntity {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (taoBaoId != null ? taoBaoId.hashCode() : 0);
+        result = 31 * result + (realName != null ? realName.hashCode() : 0);
         result = 31 * result + (userName != null ? userName.hashCode() : 0);
         result = 31 * result + (userPassword != null ? userPassword.hashCode() : 0);
         result = 31 * result + (salt != null ? salt.hashCode() : 0);

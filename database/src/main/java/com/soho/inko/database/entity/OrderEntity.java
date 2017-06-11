@@ -20,6 +20,18 @@ public class OrderEntity {
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Timestamp createDate;
     private OrderStatusEnum orderStatus;
+    private Integer postCardCount;
+
+    @Basic
+    @Column(name = "POST_CARD_COUNT")
+    public Integer getPostCardCount() {
+        return postCardCount;
+    }
+
+    public OrderEntity setPostCardCount(Integer postCardCount) {
+        this.postCardCount = postCardCount;
+        return this;
+    }
 
     @Basic
     @Column(name = "CUSTOMER_TAOBAO_ID")
@@ -86,6 +98,7 @@ public class OrderEntity {
         if (createAccountId != null ? !createAccountId.equals(that.createAccountId) : that.createAccountId != null) return false;
         if (createDate != null ? !createDate.equals(that.createDate) : that.createDate != null) return false;
         if (customerTaobaoId != null ? !customerTaobaoId.equals(that.customerTaobaoId) : that.customerTaobaoId != null) return false;
+        if (postCardCount != null ? !postCardCount.equals(that.postCardCount) : that.postCardCount != null) return false;
 
         return true;
     }
@@ -96,6 +109,7 @@ public class OrderEntity {
         result = 31 * result + (createAccountId != null ? createAccountId.hashCode() : 0);
         result = 31 * result + (createDate != null ? createDate.hashCode() : 0);
         result = 31 * result + (customerTaobaoId != null ? customerTaobaoId.hashCode() : 0);
+        result = 31 * result + (postCardCount != null ? postCardCount.hashCode() : 0);
         return result;
     }
 
